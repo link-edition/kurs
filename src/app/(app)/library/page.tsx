@@ -34,7 +34,7 @@ export default async function LibraryPage() {
                  <span>{new Date(course.created_at).toLocaleDateString()}</span>
               </div>
               <div className="pt-4 flex gap-3">
-                <button className="flex-1 bg-white/5 hover:bg-white/10 border border-white/5 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest text-white transition-all">Edit Course</button>
+                <Link href={`/courses/${course.id}`} className="flex-1 bg-white/5 hover:bg-white/10 border border-white/5 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest text-white transition-all text-center">Edit Course</Link>
                 <button className="w-12 h-12 bg-[#cafd00]/10 hover:bg-[#cafd00] flex items-center justify-center rounded-full text-[#cafd00] hover:text-[#516700] transition-all border border-[#cafd00]/20">
                   <span className="material-symbols-outlined">visibility</span>
                 </button>
