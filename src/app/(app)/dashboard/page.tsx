@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {
   const data = await getDashboardData();
-  const stats = data?.stats || { totalRevenue: 0, totalCourses: 0, totalStudents: 12840 };
+  const stats = data?.stats || { totalRevenue: 0, totalCourses: 0, totalStudents: 0 };
   const courses = data?.courses || [];
 
   return (
@@ -16,7 +16,7 @@ export default async function DashboardPage() {
           <nav className="flex gap-6">
             <Link className="text-[#cafd00] border-b-2 border-[#cafd00] pb-1 font-bold" href="/dashboard">Analytics</Link>
             <Link className="text-[#919191] hover:text-white transition-colors" href="/library">Library</Link>
-            <Link className="text-[#919191] hover:text-white transition-colors" href="#">Members</Link>
+            <Link className="text-[#919191] hover:text-white transition-colors" href="/members">Members</Link>
           </nav>
         </div>
         <div className="flex items-center gap-6">
@@ -36,7 +36,7 @@ export default async function DashboardPage() {
         <section className="space-y-2">
           <h2 className="text-6xl font-bold tracking-tighter leading-none text-white font-headline">Dashboard</h2>
           <p className="text-[#919191] text-lg max-w-2xl font-light">
-            Welcome back, Alex. Your courses generated <span className="text-[#cafd00] font-bold">14% more revenue</span> this month.
+            Welcome back. Manage your courses, modules, and lessons from here.
           </p>
         </section>
 
@@ -47,7 +47,7 @@ export default async function DashboardPage() {
               <div className="p-3 bg-[#cafd00]/10 rounded-xl">
                 <span className="material-symbols-outlined text-[#cafd00]">payments</span>
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#cafd00] bg-[#cafd00]/10 px-3 py-1 rounded-full border border-[#cafd00]/20"> +12.4% </span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#919191] bg-white/5 px-3 py-1 rounded-full border border-white/10"> 0% </span>
             </div>
             <p className="text-[#fedc00] text-xs font-bold uppercase tracking-[0.2em] mb-1">Total Revenue ($)</p>
             <h3 className="text-4xl font-bold tracking-tight text-white font-headline">${stats.totalRevenue}</h3>
@@ -58,7 +58,7 @@ export default async function DashboardPage() {
               <div className="p-3 bg-[#cafd00]/10 rounded-xl">
                 <span className="material-symbols-outlined text-[#cafd00]">group</span>
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#cafd00] bg-[#cafd00]/10 px-3 py-1 rounded-full border border-[#cafd00]/20"> +5.2% </span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#919191] bg-white/5 px-3 py-1 rounded-full border border-white/10"> 0% </span>
             </div>
             <p className="text-[#fedc00] text-xs font-bold uppercase tracking-[0.2em] mb-1">Active Students</p>
             <h3 className="text-4xl font-bold tracking-tight text-white font-headline">{stats.totalStudents}</h3>
@@ -98,14 +98,14 @@ export default async function DashboardPage() {
               <tbody className="divide-y divide-white/5">
                 {courses.length > 0 ? (
                   courses.map((course: any) => (
-                    <tr key={course.id} className="hover:bg-[#cafd00]/5 transition-colors group cursor-pointer">
+                    <tr key={course.id} className="hover:bg-[#cafd00]/5 transition-colors group cursor-pointer" onClick={() => {}}>
                       <td className="px-8 py-6">
-                        <div className="flex items-center gap-4">
+                        <Link href={`/courses/${course.id}`} className="flex items-center gap-4">
                           <div className="w-10 h-10 rounded-full bg-[#333333] border border-[rgba(202,253,0,0.1)] flex items-center justify-center text-[10px] font-bold text-[#cafd00]">
                             {course.title.substring(0,2).toUpperCase()}
                           </div>
-                          <span className="text-sm font-medium text-white">{course.title}</span>
-                        </div>
+                          <span className="text-sm font-medium text-white group-hover:text-[#cafd00] transition-colors">{course.title}</span>
+                        </Link>
                       </td>
                       <td className="px-8 py-6"><span className="text-sm text-[#919191] font-headline">{course.modules_count} Modules</span></td>
                       <td className="px-8 py-6 text-right"><span className="text-sm text-[#919191]">{new Date(course.created_at).toLocaleDateString()}</span></td>

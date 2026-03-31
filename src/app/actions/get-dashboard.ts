@@ -21,7 +21,7 @@ export async function getDashboardData() {
       stats: {
         totalRevenue: totalRevenue[0]?.total || 0,
         totalCourses: totalCourses[0]?.count || 0,
-        totalStudents: 12840,
+        totalStudents: 0,
       }
     };
   } catch (error) {
