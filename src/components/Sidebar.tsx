@@ -12,7 +12,7 @@ export function Sidebar() {
   const links = [
     { name: t("analytics"), href: "/dashboard", icon: "dashboard" },
     { name: t("library"), href: "/library", icon: "video_library" },
-    { name: "Kurs yaratish", href: "/create-course", icon: "add_circle" },
+    { name: t("createCourse"), href: "/create-course", icon: "add_circle" },
   ];
 
   return (
@@ -53,36 +53,14 @@ export function Sidebar() {
           {t("newProject")}
         </Link>
 
-        {/* Language Switcher */}
-        <div className="flex items-center bg-[#111] rounded-full p-1 mb-6 border border-white/5">
-          <button
-            onClick={() => setLang("uz")}
-            className={cn(
-              "flex-1 py-2 text-[10px] font-bold uppercase tracking-widest rounded-full transition-all text-center",
-              lang === "uz" ? "bg-[#cafd00] text-black" : "text-[#666] hover:text-white"
-            )}
-          >
-            🇺🇿 UZ
-          </button>
-          <button
-            onClick={() => setLang("en")}
-            className={cn(
-              "flex-1 py-2 text-[10px] font-bold uppercase tracking-widest rounded-full transition-all text-center",
-              lang === "en" ? "bg-[#cafd00] text-black" : "text-[#666] hover:text-white"
-            )}
-          >
-            🇬🇧 EN
-          </button>
-        </div>
-
         <div className="space-y-1">
           <Link href="#" className="flex items-center gap-3 px-4 py-3 text-[#919191] hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full">
             <span className="material-symbols-outlined text-lg">settings</span>
-            <span className="text-sm">Sozlamalar</span>
+            <span className="text-sm">{t("settings")}</span>
           </Link>
           <Link href="#" className="flex items-center gap-3 px-4 py-3 text-[#919191] hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full">
             <span className="material-symbols-outlined text-lg">help_outline</span>
-            <span className="text-sm">Yordam</span>
+            <span className="text-sm">{t("help")}</span>
           </Link>
         </div>
       </div>
@@ -90,8 +68,8 @@ export function Sidebar() {
       <div className="flex items-center gap-3 p-4 bg-[#121212] rounded-2xl border border-[#cafd00]/10 group hover:border-[#cafd00]/30 transition-colors cursor-pointer mt-4">
         <div className="w-10 h-10 rounded-full bg-[#cafd00]/10 flex items-center justify-center text-sm font-bold text-[#cafd00] border border-[#cafd00]/20">AD</div>
         <div className="overflow-hidden">
-          <p className="text-sm font-bold text-white truncate">Admin</p>
-          <p className="text-xs text-[#cafd00] truncate font-bold uppercase tracking-wider">Boshqaruvchi</p>
+          <p className="text-sm font-bold text-white truncate">{t("admin")}</p>
+          <p className="text-xs text-[#cafd00] truncate font-bold uppercase tracking-wider">{t("manager")}</p>
         </div>
       </div>
     </aside>
