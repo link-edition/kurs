@@ -182,13 +182,13 @@ export default function LandingPage() {
       </section>
 
       {/* Interactive Flow */}
-      <section className="py-32 px-6 relative overflow-hidden">
-        <div className="text-center mb-24">
+      <section className="py-32 px-6 relative overflow-hidden" id="workflow">
+        <div className="text-center mb-20">
           <h2 className="font-headline text-5xl font-bold mb-6 text-white">
-            {lang === 'uz' ? 'Sizning Muvaffaqiyat Yo\'lingiz' : 'Your Path to Legacy'}
+            {lang === 'uz' ? 'Qanday ishlaydi?' : 'How it works?'}
           </h2>
           <p className="text-[#ababab] text-xl">
-            {lang === 'uz' ? '3D imperiyani qurishning to\'rtta asosi.' : 'The four pillars of building a 3D empire.'}
+            {lang === 'uz' ? 'Kurs yaratishdan to uni o\'quvchiga yetkazishgacha bo\'lgan oddiy yo\'l.' : 'A simple path from creating a course to delivering it to your students.'}
           </p>
         </div>
         <div className="max-w-6xl mx-auto relative px-10">
@@ -200,32 +200,32 @@ export default function LandingPage() {
               <div className="w-24 h-24 bg-[#000] rounded-xl border border-white/10 flex items-center justify-center mb-8 shadow-2xl group-hover:scale-110 group-hover:-translate-y-4 transition-all duration-500 hover:border-[#cafd00]/30 cursor-default">
                 <span className="text-4xl font-black text-[#cafd00]">01</span>
               </div>
-              <h4 className="font-headline text-xl font-bold mb-3 text-white">{lang === 'uz' ? 'Asoslar' : 'Basics'}</h4>
-              <p className="text-center text-[#ababab] text-sm">{lang === 'uz' ? 'AI yordamida o\'z yo\'nalishingizni va maqsadli auditoriyangizni aniqlang.' : 'Define your niche and target persona with AI assistance.'}</p>
+              <h4 className="font-headline text-xl font-bold mb-3 text-white">{lang === 'uz' ? 'Kurs yarating' : 'Create Course'}</h4>
+              <p className="text-center text-[#ababab] text-sm">{lang === 'uz' ? 'O\'z kursingizni nomlang va asosiy ma\'lumotlarni to\'ldiring.' : 'Name your course and fill in the basic information.'}</p>
             </div>
             {/* Step 2 */}
             <div className="flex flex-col items-center group">
               <div className="w-24 h-24 bg-[#000] rounded-xl border border-white/10 flex items-center justify-center mb-8 shadow-2xl group-hover:scale-110 group-hover:-translate-y-4 transition-all duration-500 hover:border-[#fedc00]/30 cursor-default">
                 <span className="text-4xl font-black text-[#fedc00]">02</span>
               </div>
-              <h4 className="font-headline text-xl font-bold mb-3 text-white">{lang === 'uz' ? 'Dastur' : 'Curriculum'}</h4>
-              <p className="text-center text-[#ababab] text-sm">{lang === 'uz' ? '3D ish muhitimizda o\'quv yo\'lini loyihalashtiring.' : 'Architect the learning path in our 3D workspace.'}</p>
+              <h4 className="font-headline text-xl font-bold mb-3 text-white">{lang === 'uz' ? 'Darslar qo\'shing' : 'Add Lessons'}</h4>
+              <p className="text-center text-[#ababab] text-sm">{lang === 'uz' ? 'Modullar yarating va videolarni (YouTube orqali) ulab chiqing.' : 'Create modules and connect your videos via YouTube.'}</p>
             </div>
             {/* Step 3 */}
             <div className="flex flex-col items-center group">
               <div className="w-24 h-24 bg-[#000] rounded-xl border border-white/10 flex items-center justify-center mb-8 shadow-2xl group-hover:scale-110 group-hover:-translate-y-4 transition-all duration-500 hover:border-[#cafd00]/30 cursor-default">
                 <span className="text-4xl font-black text-[#cafd00]">03</span>
               </div>
-              <h4 className="font-headline text-xl font-bold mb-3 text-white">{lang === 'uz' ? 'Narxlash' : 'Pricing'}</h4>
-              <p className="text-center text-[#ababab] text-sm">{lang === 'uz' ? 'Monetizatsiya strategiyangizni va darajalarini belgilang.' : 'Model your monetization strategy and tiers.'}</p>
+              <h4 className="font-headline text-xl font-bold mb-3 text-white">{lang === 'uz' ? 'Linkni yuboring' : 'Share Link'}</h4>
+              <p className="text-center text-[#ababab] text-sm">{lang === 'uz' ? 'Tayyor o\'quvchi sahifasining linkini nusxalab, bilimingizni ulashing.' : 'Copy the student link and share your knowledge.'}</p>
             </div>
             {/* Step 4 */}
             <div className="flex flex-col items-center group">
               <div className="w-24 h-24 bg-[#000] rounded-xl border border-[#f3ffca]/40 flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(202,253,0,0.2)] group-hover:scale-110 group-hover:-translate-y-4 transition-all duration-500 cursor-default">
                 <span className="text-4xl font-black text-white">04</span>
               </div>
-              <h4 className="font-headline text-xl font-bold mb-3 text-white">{lang === 'uz' ? 'Chop etish' : 'Publish'}</h4>
-              <p className="text-center text-[#ababab] text-sm">{lang === 'uz' ? 'Birgina tugma orqali butun dunyo uchun o\'z kursingizni e\'lon qiling.' : 'Launch to a global audience with 1-click scaling.'}</p>
+              <h4 className="font-headline text-xl font-bold mb-3 text-white">{lang === 'uz' ? 'Boshqaring' : 'Manage'}</h4>
+              <p className="text-center text-[#ababab] text-sm">{lang === 'uz' ? 'Saytingizni rivojlantiring va o\'quvchilaringizning darslarni ko\'rishini nazorat qiling.' : 'Keep improving and monitor your student progress.'}</p>
             </div>
           </div>
         </div>
