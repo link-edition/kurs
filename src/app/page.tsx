@@ -30,24 +30,24 @@ export default function LandingPage() {
       {/* TopNavBar */}
       <nav className="sticky top-4 z-50 flex justify-between items-center px-8 py-4 bg-black/60 backdrop-blur-xl rounded-full mx-auto w-[95%] max-w-7xl shadow-[0_20px_50px_rgba(202,253,0,0.15)] font-['Space_Grotesk'] tracking-tight border border-white/5">
         <div className="text-2xl font-bold text-white tracking-tighter">Course Architect</div>
-        <div className="hidden md:flex gap-8 items-center">
-          <Link className="text-[#cafd00] font-bold hover:scale-105 transition-all duration-300" href="#">{lang === 'uz' ? 'Imkoniyatlar' : 'Features'}</Link>
-          <Link className="text-white/70 hover:scale-105 hover:text-[#cafd00] transition-all duration-300" href="#">{lang === 'uz' ? 'Ish tartibi' : 'Workflow'}</Link>
-          <Link className="text-white/70 hover:scale-105 hover:text-[#cafd00] transition-all duration-300" href="#">{lang === 'uz' ? 'Narxlar' : 'Pricing'}</Link>
+        <div className="hidden md:flex gap-10 items-center">
+          <Link className="text-white/60 hover:text-[#cafd00] font-bold transition-all duration-300" href="#features">{lang === 'uz' ? 'Imkoniyatlar' : 'Features'}</Link>
+          <Link className="text-white/60 hover:text-[#cafd00] font-bold transition-all duration-300" href="#workflow">{lang === 'uz' ? 'Ish tartibi' : 'Workflow'}</Link>
+          <Link className="text-white/60 hover:text-[#cafd00] font-bold transition-all duration-300" href="#pricing">{lang === 'uz' ? 'Narxlar' : 'Pricing'}</Link>
         </div>
         
-        <div className="flex items-center gap-4">
-          {/* Language Switcher */}
+        <div className="flex items-center gap-6">
+          {/* Bigger Language Switcher */}
           <button 
             onClick={() => setLang(lang === 'uz' ? 'en' : 'uz')}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:border-[#cafd00]/30 transition-all group"
+            className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 hover:border-[#cafd00]/50 transition-all group hover:bg-white/10"
           >
-            <Globe className="w-4 h-4 text-[#cafd00] group-hover:rotate-180 transition-transform duration-500" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">{lang.toUpperCase()}</span>
+            <Globe className="w-5 h-5 text-[#cafd00] group-hover:rotate-180 transition-transform duration-700" />
+            <span className="text-xs font-black uppercase tracking-[0.2em]">{lang.toUpperCase()}</span>
           </button>
 
-          <Link href="/dashboard" className="bg-[#cafd00] text-[#516700] px-6 py-2.5 rounded-full font-bold scale-95 active:duration-75 hover:scale-105 transition-all duration-300 shadow-[0_10px_20px_rgba(202,253,0,0.2)]">
-            {lang === 'uz' ? 'Hozir sinab ko\'ring' : 'Try Now'}
+          <Link href="/dashboard" className="bg-[#cafd00] text-[#516700] px-8 py-3 rounded-full font-black text-sm uppercase tracking-wider scale-95 active:duration-75 hover:scale-105 transition-all duration-300 shadow-[0_10px_30px_rgba(202,253,0,0.25)]">
+            {lang === 'uz' ? 'Boshlash' : 'Get Started'}
           </Link>
         </div>
       </nav>
