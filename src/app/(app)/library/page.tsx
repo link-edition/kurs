@@ -9,9 +9,9 @@ export default async function LibraryPage() {
   return (
     <div className="p-12 space-y-12 max-w-[1400px] w-full mx-auto relative z-10">
       <header className="space-y-4">
-        <h1 className="text-5xl font-bold text-white font-headline tracking-tighter">My Library</h1>
+        <h1 className="text-5xl font-bold text-white font-headline tracking-tighter">Mening kutubxonam</h1>
         <p className="text-[#919191] text-lg max-w-2xl font-light">
-          Manage and edit your published courses from your private library center.
+          Chop etilgan kurslaringizni shu yerdan boshqaring va tahrirlang.
         </p>
       </header>
 
@@ -24,20 +24,20 @@ export default async function LibraryPage() {
                   <span className="material-symbols-outlined text-5xl text-[#cafd00]/20">menu_book</span>
                </div>
                <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-[10px] font-bold text-[#fedc00] uppercase tracking-widest">
-                 {course.is_free ? 'Free' : `$${course.price}`}
+                 {course.is_free ? 'Bepul' : `$${course.price}`}
                </div>
             </div>
             <div className="p-8 space-y-4">
               <h3 className="text-xl font-bold text-white font-headline tracking-tight group-hover:text-[#cafd00] transition-colors">{course.title}</h3>
               <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-widest text-[#666]">
-                 <span>{course.modules_count} Modules</span>
+                 <span>{course.modules_count} modul</span>
                  <span>{new Date(course.created_at).toLocaleDateString()}</span>
               </div>
               <div className="pt-4 flex gap-3">
-                <Link href={`/courses/${course.id}`} className="flex-1 bg-white/5 hover:bg-white/10 border border-white/5 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest text-white transition-all text-center">Edit Course</Link>
-                <button className="w-12 h-12 bg-[#cafd00]/10 hover:bg-[#cafd00] flex items-center justify-center rounded-full text-[#cafd00] hover:text-[#516700] transition-all border border-[#cafd00]/20">
+                <Link href={`/courses/${course.id}`} className="flex-1 bg-white/5 hover:bg-white/10 border border-white/5 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest text-white transition-all text-center">Tahrirlash</Link>
+                <Link href={`/learn/${course.id}`} className="w-12 h-12 bg-[#cafd00]/10 hover:bg-[#cafd00] flex items-center justify-center rounded-full text-[#cafd00] hover:text-[#516700] transition-all border border-[#cafd00]/20">
                   <span className="material-symbols-outlined">visibility</span>
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -47,15 +47,15 @@ export default async function LibraryPage() {
             <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center group-hover:bg-[#cafd00]/20 group-hover:scale-110 transition-all">
                <span className="material-symbols-outlined text-white/20 group-hover:text-[#cafd00]">add</span>
             </div>
-            <span className="mt-6 text-[11px] font-bold uppercase tracking-widest text-[#666]">Create New Course</span>
+            <span className="mt-6 text-[11px] font-bold uppercase tracking-widest text-[#666]">Yangi kurs yaratish</span>
         </Link>
       </div>
 
       {courses.length === 0 && (
         <div className="text-center py-20 bg-[#111]/50 rounded-3xl border border-dashed border-white/5">
              <span className="material-symbols-outlined text-6xl text-[#333] mb-4">folder_off</span>
-             <h3 className="text-xl font-bold text-white mb-2">Library is empty</h3>
-             <p className="text-[#666] text-sm">Upload your first course to see it here.</p>
+             <h3 className="text-xl font-bold text-white mb-2">Kutubxona bo&apos;sh</h3>
+             <p className="text-[#666] text-sm">Birinchi kursingizni yuklab ko&apos;ring.</p>
         </div>
       )}
     </div>

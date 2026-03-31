@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getDashboardData } from "@/app/actions/get-dashboard";
+import { TopNav } from "@/components/TopNav";
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {
@@ -9,38 +10,16 @@ export default async function DashboardPage() {
 
   return (
     <>
-      {/* TopNavBar */}
-      <header className="bg-black/80 backdrop-blur-xl text-white font-body text-sm font-medium tracking-tight sticky top-0 z-40 flex items-center justify-between h-16 w-full px-8 border-b border-[#cafd00]/5">
-        <div className="flex items-center gap-8">
-          <span className="text-lg font-bold tracking-tight font-headline">Course Builder</span>
-          <nav className="flex gap-6">
-            <Link className="text-[#cafd00] border-b-2 border-[#cafd00] pb-1 font-bold" href="/dashboard">Analytics</Link>
-            <Link className="text-[#919191] hover:text-white transition-colors" href="/library">Library</Link>
-            <Link className="text-[#919191] hover:text-white transition-colors" href="/members">Members</Link>
-          </nav>
-        </div>
-        <div className="flex items-center gap-6">
-          <div className="relative group">
-            <span className="material-symbols-outlined text-[#919191] group-hover:text-[#cafd00] cursor-pointer transition-colors">search</span>
-          </div>
-          <div className="relative group">
-            <span className="material-symbols-outlined text-[#919191] group-hover:text-[#cafd00] cursor-pointer transition-colors">notifications</span>
-            <span className="absolute top-0 right-0 w-2 h-2 bg-[#fedc00] rounded-full"></span>
-          </div>
-          <img alt="User Avatar" className="w-8 h-8 rounded-full border border-[rgba(202,253,0,0.1)] grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9lojRLDMO8kPM-98ZWrcznU8m5iUKyupx0UFVgwSDOtOlQxMYsWnLPWP57sfDpK3kVllmFOJb5Ghv-0rfBQSHUoSkaPjg6zQD8tl2Rsch-pwx0iCxguzsG_EUjdFxiFPuAKkS4h2c9Mb6rWj1PWwwL46WmwSxLunpMA6aeqjUKMCDl2to4kwJUCmHt0DBQG69sbPHKrAAi-qPtAUG4XGnYA1w4--YViAUVOJb7K61QE5q1avYRgyMD_LpREyq3TPRyTktO-B-U8E"/>
-        </div>
-      </header>
+      <TopNav />
 
-      {/* Content Area */}
       <div className="p-12 space-y-16 max-w-[1400px] w-full mx-auto relative z-10">
         <section className="space-y-2">
-          <h2 className="text-6xl font-bold tracking-tighter leading-none text-white font-headline">Dashboard</h2>
+          <h2 className="text-6xl font-bold tracking-tighter leading-none text-white font-headline">Boshqaruv paneli</h2>
           <p className="text-[#919191] text-lg max-w-2xl font-light">
-            Welcome back. Manage your courses, modules, and lessons from here.
+            Xush kelibsiz. Kurslaringizni shu yerdan boshqaring.
           </p>
         </section>
 
-        {/* Info Cards */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-[#262626]/40 backdrop-blur-[20px] border border-[#cafd00]/[0.05] p-8 rounded-2xl group hover:scale-[1.02] transition-all duration-500 cursor-default">
             <div className="flex justify-between items-start mb-6">
@@ -49,7 +28,7 @@ export default async function DashboardPage() {
               </div>
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#919191] bg-white/5 px-3 py-1 rounded-full border border-white/10"> 0% </span>
             </div>
-            <p className="text-[#fedc00] text-xs font-bold uppercase tracking-[0.2em] mb-1">Total Revenue ($)</p>
+            <p className="text-[#fedc00] text-xs font-bold uppercase tracking-[0.2em] mb-1">Umumiy daromad ($)</p>
             <h3 className="text-4xl font-bold tracking-tight text-white font-headline">${stats.totalRevenue}</h3>
           </div>
 
@@ -60,7 +39,7 @@ export default async function DashboardPage() {
               </div>
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#919191] bg-white/5 px-3 py-1 rounded-full border border-white/10"> 0% </span>
             </div>
-            <p className="text-[#fedc00] text-xs font-bold uppercase tracking-[0.2em] mb-1">Active Students</p>
+            <p className="text-[#fedc00] text-xs font-bold uppercase tracking-[0.2em] mb-1">Faol o&apos;quvchilar</p>
             <h3 className="text-4xl font-bold tracking-tight text-white font-headline">{stats.totalStudents}</h3>
           </div>
 
@@ -69,30 +48,29 @@ export default async function DashboardPage() {
               <div className="p-3 bg-[#cafd00]/10 rounded-xl">
                 <span className="material-symbols-outlined text-[#cafd00]">menu_book</span>
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#919191] bg-white/5 px-3 py-1 rounded-full border border-white/10"> Live </span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#919191] bg-white/5 px-3 py-1 rounded-full border border-white/10"> Faol </span>
             </div>
-            <p className="text-[#fedc00] text-xs font-bold uppercase tracking-[0.2em] mb-1">Courses Created</p>
+            <p className="text-[#fedc00] text-xs font-bold uppercase tracking-[0.2em] mb-1">Yaratilgan kurslar</p>
             <h3 className="text-4xl font-bold tracking-tight text-white font-headline">{stats.totalCourses}</h3>
           </div>
         </section>
 
-        {/* RECENT COURSE CREATIONS - MOVED UP FOR VISIBILITY */}
         <section className="space-y-8">
           <div className="flex items-center justify-between">
-            <h4 className="text-2xl font-bold tracking-tight text-white font-headline">Recent Course Creations</h4>
+            <h4 className="text-2xl font-bold tracking-tight text-white font-headline">So&apos;nggi kurslar</h4>
             <Link href="/create-course" className="bg-[#cafd00] text-[#516700] px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest hover:brightness-110 transition-all flex items-center gap-2">
               <span className="material-symbols-outlined text-sm">add</span>
-              New Project
+              Yangi kurs
             </Link>
           </div>
           <div className="bg-[#262626]/40 backdrop-blur-[20px] border border-[#cafd00]/[0.05] rounded-2xl overflow-hidden">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-[#cafd00]/5">
-                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00]">Course Title</th>
-                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00]">Structure</th>
-                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00] text-right">Created Date</th>
-                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00] text-right">Price</th>
+                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00]">Kurs nomi</th>
+                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00]">Tuzilma</th>
+                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00] text-right">Yaratilgan sana</th>
+                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00] text-right">Narxi</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -107,7 +85,7 @@ export default async function DashboardPage() {
                           <span className="text-sm font-medium text-white group-hover:text-[#cafd00] transition-colors">{course.title}</span>
                         </Link>
                       </td>
-                      <td className="px-8 py-6"><span className="text-sm text-[#919191] font-headline">{course.modules_count} Modules</span></td>
+                      <td className="px-8 py-6"><span className="text-sm text-[#919191] font-headline">{course.modules_count} modul</span></td>
                       <td className="px-8 py-6 text-right"><span className="text-sm text-[#919191]">{new Date(course.created_at).toLocaleDateString()}</span></td>
                       <td className="px-8 py-6 text-right"><span className="text-sm font-bold text-[#cafd00]">${course.price}</span></td>
                     </tr>
@@ -117,8 +95,8 @@ export default async function DashboardPage() {
                     <td colSpan={4} className="px-8 py-20 text-center">
                       <div className="flex flex-col items-center gap-4 opacity-40">
                         <span className="material-symbols-outlined text-5xl">folder_off</span>
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#919191]">No courses found yet</p>
-                        <Link href="/create-course" className="text-[#cafd00] hover:underline text-xs">Create your first course now</Link>
+                        <p className="text-sm font-bold uppercase tracking-widest text-[#919191]">Hali kurslar yaratilmagan</p>
+                        <Link href="/create-course" className="text-[#cafd00] hover:underline text-xs">Birinchi kursingizni yarating</Link>
                       </div>
                     </td>
                   </tr>
@@ -128,12 +106,11 @@ export default async function DashboardPage() {
           </div>
         </section>
 
-        {/* Chart Section */}
         <section className="space-y-8">
           <div className="flex items-end justify-between">
             <div>
-              <h4 className="text-2xl font-bold tracking-tight text-white font-headline">Revenue Performance</h4>
-              <p className="text-[#919191] text-sm">30-day sales distribution and engagement metrics</p>
+              <h4 className="text-2xl font-bold tracking-tight text-white font-headline">Daromad ko&apos;rsatkichlari</h4>
+              <p className="text-[#919191] text-sm">30 kunlik sotuv taqsimoti va faollik ko&apos;rsatkichlari</p>
             </div>
           </div>
           <div className="w-full h-[400px] bg-[#262626]/40 backdrop-blur-[20px] border border-[#cafd00]/[0.05] rounded-2xl p-8 relative overflow-hidden">
@@ -158,12 +135,11 @@ export default async function DashboardPage() {
         </section>
       </div>
       
-      {/* Footer */}
       <footer className="mt-24 px-12 py-12 border-t border-[#cafd00]/5 flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-[#919191]/50 relative z-10 w-full">
-        <span>© 2023 Obsidian kinetic precision systems</span>
+        <span>© 2026 Course Architect</span>
         <div className="flex gap-8">
-          <Link className="hover:text-[#cafd00] transition-colors" href="#">Privacy Policy</Link>
-          <Link className="hover:text-[#cafd00] transition-colors" href="#">Service Status</Link>
+          <Link className="hover:text-[#cafd00] transition-colors" href="#">Maxfiylik siyosati</Link>
+          <Link className="hover:text-[#cafd00] transition-colors" href="#">Xizmat holati</Link>
         </div>
       </footer>
     </>
