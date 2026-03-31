@@ -98,7 +98,7 @@ export default async function DashboardPage() {
               <tbody className="divide-y divide-white/5">
                 {courses.length > 0 ? (
                   courses.map((course: any) => (
-                    <tr key={course.id} className="hover:bg-[#cafd00]/5 transition-colors group cursor-pointer" onClick={() => {}}>
+                    <tr key={course.id} className="hover:bg-[#cafd00]/5 transition-colors group cursor-pointer">
                       <td className="px-8 py-6">
                         <Link href={`/courses/${course.id}`} className="flex items-center gap-4">
                           <div className="w-10 h-10 rounded-full bg-[#333333] border border-[rgba(202,253,0,0.1)] flex items-center justify-center text-[10px] font-bold text-[#cafd00]">
