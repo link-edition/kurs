@@ -62,26 +62,23 @@ export default function LandingPage() {
           <span className="inline-block px-4 py-1.5 rounded-full bg-[#1f1f1f] border border-[#f3ffca]/20 text-[#cafd00] font-label text-sm uppercase tracking-widest mb-8">
               {lang === 'uz' ? 'Ta\'lim Kelajagi' : 'The Future of Education'}
           </span>
-          <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[0.9] text-white mb-10">
+          <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1.1] text-white mb-10">
               {lang === 'uz' ? (
-                <>O'z bilim <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#cafd00] to-[#fedc00]">imperiyangizni</span> 3D shaklda quring</>
+                <>O'z bilim <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#cafd00] to-[#fedc00]">imperiyangizni</span> quring</>
               ) : (
-                <>Build your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#cafd00] to-[#fedc00]">knowledge empire</span> in 3D</>
+                <>Build your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#cafd00] to-[#fedc00]">knowledge empire</span></>
               )}
           </h1>
           <p className="font-body text-[#ababab] text-xl md:text-2xl max-w-2xl mx-auto mb-12 leading-relaxed">
               {lang === 'uz' 
-                ? '2D to\'siqlarni yorib o\'ting. Raqamli tortishish kuchiga qarshi chiquvchi, yuqori darajadagi interaktiv ta\'lim tajribasini yarating.'
-                : 'Break the 2D barrier. Architect immersive, high-conversion learning experiences that defy digital gravity.'}
+                ? 'Kurslaringizni professional darajaga olib chiqing. O\'quvchilaringiz uchun eng qulay va zamonaviy ta\'lim muhitini yarating.'
+                : 'Take your courses to a professional level. Create the most convenient and modern learning environment for your students.'}
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Link href="/dashboard" className="bg-[#cafd00] text-[#516700] px-10 py-5 rounded-xl text-xl font-extrabold shadow-[0_15px_40px_rgba(202,253,0,0.3)] hover:scale-105 active:scale-95 transition-all duration-500 flex items-center gap-3">
                 {lang === 'uz' ? 'Bepul boshlash' : 'Start Building for Free'}
                 <span className="material-symbols-outlined">rocket_launch</span>
             </Link>
-            <button className="glass-card text-white px-10 py-5 rounded-xl text-xl font-bold hover:bg-white/10 transition-all duration-300">
-                {lang === 'uz' ? 'Demonstratsiyani ko\'rish' : 'Watch Demo'}
-            </button>
           </div>
         </div>
 
