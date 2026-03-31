@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getCourseById } from "@/app/actions/get-dashboard";
 
 export default function CourseDetailPage() {
   const params = useParams();
@@ -19,16 +18,23 @@ export default function CourseDetailPage() {
   const [newLessonUrl, setNewLessonUrl] = useState("");
 
   useEffect(() => {
-    getCourseById(courseId).then((data) => {
-      setCourse(data);
-      if (data?.modules?.length > 0) {
-        setActiveModule(data.modules[0].id);
-        if (data.modules[0].lessons?.length > 0) {
-          setActiveLesson(data.modules[0].lessons[0]);
+    fetch(`/api/courses/${courseId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setCourse(null);
+        } else {
+          setCourse(data);
+          if (data?.modules?.length > 0) {
+            setActiveModule(data.modules[0].id);
+            if (data.modules[0].lessons?.length > 0) {
+              setActiveLesson(data.modules[0].lessons[0]);
+            }
+          }
         }
-      }
-      setLoading(false);
-    });
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, [courseId]);
 
   const getYouTubeEmbedUrl = (url: string) => {
