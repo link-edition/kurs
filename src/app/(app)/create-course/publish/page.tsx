@@ -3,17 +3,27 @@
 import { useCourseStore } from "@/store/course-store";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { publishCourseAction } from "@/app/actions/publish-course";
 
 export default function Step4Publish() {
-  const { title, categoryId, price, modules } = useCourseStore();
+  const { title, subtitle, categoryId, description, imageUrl, price, isFree, modules, reset } = useCourseStore();
   const router = useRouter();
   const [isPublishing, setIsPublishing] = useState(false);
 
   const handlePublish = async () => {
     setIsPublishing(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    router.push('/dashboard');
+    
+    const result = await publishCourseAction({
+      title, subtitle, categoryId, description, imageUrl, price, isFree, modules
+    });
+
+    if (result?.success) {
+      reset();
+      router.push('/dashboard');
+    } else {
+      alert("Xatolik: " + result?.error);
+      setIsPublishing(false);
+    }
   };
 
   const totalLessons = modules.reduce((acc, mod) => acc + mod.lessons.length, 0);
