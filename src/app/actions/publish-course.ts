@@ -39,7 +39,7 @@ export async function publishCourseAction(courseData: any) {
       }
     }
 
-    revalidatePath('/dashboard');
+    revalidatePath('/', 'layout');
     return { success: true, courseId: course.id };
   } catch (error) {
     console.error('Failed to publish course:', error);

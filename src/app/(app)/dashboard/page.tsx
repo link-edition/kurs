@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getDashboardData } from "@/app/actions/get-dashboard";
+export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {
   const data = await getDashboardData();
