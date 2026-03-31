@@ -234,22 +234,19 @@ export default function LandingPage() {
       {/* Final CTA */}
       <section className="py-32 px-6">
         <div className="max-w-7xl mx-auto rounded-[3rem] bg-gradient-to-br from-black via-[#131313] to-[#cafd00]/20 p-16 md:p-32 relative overflow-hidden text-center border border-white/5">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(202,253,0,0.15),transparent)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(202, 253, 0, 0.15),transparent)]"></div>
           <div className="relative z-10">
             <h2 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-8 text-white">
-              {lang === 'uz' ? 'O\'z merosingizni yaratishga tayyormisiz?' : 'Ready to launch your legacy?'}
+              {lang === 'uz' ? 'O\'z bilimlaringiz bilan bo\'lishing' : 'Share your expertise with the world'}
             </h2>
             <p className="font-body text-[#ababab] text-xl max-w-2xl mx-auto mb-16 leading-relaxed">
                 {lang === 'uz' 
-                  ? 'Zamonaviy ta\'limni qayta belgilayotgan 15,000 dan ortiq mutaxassislarga qo\'shiling. Sizning imperiyangiz shu yerdan boshlanadi.'
-                  : 'Join over 15,000 course architects redefining the landscape of modern education. Your empire starts here.'}
+                  ? 'Kurslaringizni yaratishni hoziroq boshlang. Biz sizga darslaringizni eng sifatli va tushunarli tarzda o\'quvchilaringizga yetkazishingizda yordam beramiz.'
+                  : 'Start building your course today. We help you deliver your knowledge in the most premium and effective way possible.'}
             </p>
             <Link href="/dashboard" className="inline-block bg-[#cafd00] text-[#516700] px-12 py-6 rounded-xl text-2xl font-black shadow-[0_20px_50px_rgba(202,253,0,0.3)] hover:scale-110 hover:-translate-y-2 active:scale-95 transition-all duration-500">
-                {lang === 'uz' ? 'Boshqaruv paneliga o\'tish' : 'Go to Dashboard'}
+                {lang === 'uz' ? 'Boshlash' : 'Get Started'}
             </Link>
-            <div className="mt-12 text-[#ababab]/60 font-label text-sm uppercase tracking-widest font-bold">
-                {lang === 'uz' ? 'Kredit karta talab qilinmaydi • Tezkor sozlash' : 'No Credit Card Required • Instant Setup'}
-            </div>
           </div>
         </div>
       </section>
