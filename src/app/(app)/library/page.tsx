@@ -94,64 +94,70 @@ export default function LibraryPage() {
 
   return (
     <div className="p-8 space-y-8 max-w-[1400px] w-full mx-auto relative z-10">
-      <header className="space-y-2 text-left">
-        <h1 className="text-4xl font-black text-white font-headline tracking-tighter leading-tight">{t("myLibrary")}</h1>
-        <p className="text-[#666] text-base max-w-2xl font-medium">
-          {t("libDesc")}
-        </p>
+      <header className="space-y-4 text-left">
+        <Link href="/dashboard" className="inline-flex items-center gap-2 text-[#666] hover:text-[#cafd00] transition-colors group">
+          <span className="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.2em]">Dashboardga qaytish</span>
+        </Link>
+        <div className="space-y-2">
+          <h1 className="text-5xl font-black text-white font-headline tracking-tighter leading-tight uppercase italic underline decoration-[#cafd00]/30 underline-offset-8">Mening kurslarim.</h1>
+          <p className="text-[#666] text-base max-w-2xl font-medium">
+            {t("libDesc")}
+          </p>
+        </div>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {courses.map((course: any) => (
-          <div key={course.id} className="group relative bg-[#111] border border-white/5 rounded-3xl p-6 space-y-5 hover:border-[#cafd00]/20 transition-all duration-500">
+          <div key={course.id} className="group relative bg-[#111] border border-white/5 rounded-[40px] p-6 space-y-6 hover:border-[#cafd00]/20 transition-all duration-500 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)]">
             {/* Settings Icon - Absolute top right */}
             <button 
               onClick={() => openEditModal(course)}
-              className="absolute top-4 left-4 z-20 w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:text-[#cafd00] hover:bg-white/20 transition-all shadow-lg"
+              className="absolute top-4 left-4 z-20 w-11 h-11 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:text-[#cafd00] hover:bg-white/20 transition-all shadow-lg hover:rotate-90 duration-500"
             >
-              <span className="material-symbols-outlined text-xl">settings</span>
+              <span className="material-symbols-outlined text-2xl">settings</span>
             </button>
 
-            <div className="aspect-video bg-black rounded-2xl overflow-hidden border border-white/5 relative">
+            <div className="aspect-video bg-black rounded-[28px] overflow-hidden border border-white/5 relative">
               {course.image_url ? (
                 <img src={course.image_url} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-75 group-hover:brightness-100" />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center opacity-20">
-                  <span className="material-symbols-outlined text-4xl">menu_book</span>
+                  <span className="material-symbols-outlined text-5xl">menu_book</span>
                 </div>
               )}
-              <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10">
-                <span className="text-[8px] font-black text-[#cafd00] uppercase tracking-widest">{course.is_free ? 'BEPUL' : `$${course.price}`}</span>
+              <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 shadow-xl">
+                <span className="text-[10px] font-black text-[#cafd00] uppercase tracking-widest">{course.is_free ? 'BEPUL' : `$${course.price}`}</span>
               </div>
             </div>
 
-            <div className="space-y-4 text-left">
+            <div className="space-y-5 text-left px-2">
               <div className="space-y-1">
-                <p className="text-[9px] font-bold text-[#444] uppercase tracking-widest">{course.modules_count || 0} MODUL · {course.lessons_count || 0} DARS</p>
-                <h5 className="text-lg font-bold text-white tracking-tight group-hover:text-[#cafd00] transition-colors line-clamp-1">{course.title}</h5>
+                <p className="text-[10px] font-bold text-[#444] uppercase tracking-[0.3em]">{course.modules_count || 0} MODUL · {course.lessons_count || 0} DARS</p>
+                <h5 className="text-xl font-bold text-white tracking-tight group-hover:text-[#cafd00] transition-colors line-clamp-1 uppercase italic">{course.title}</h5>
               </div>
               
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <button
                   onClick={() => copyLink(course.id)}
-                  className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border ${
+                  className={`w-full flex items-center justify-center gap-3 py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all border shadow-lg active:scale-95 ${
                     copied === course.id
                       ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400'
-                      : 'bg-[#cafd00]/5 border-[#cafd00]/10 text-[#cafd00] hover:bg-[#cafd00]/10'
+                      : 'bg-[#cafd00] border-[#cafd00] text-black hover:bg-[#cafd00]/90 shadow-[0_10px_20px_-5px_rgba(202,253,0,0.3)]'
                   }`}
                 >
-                  <span className="material-symbols-outlined text-base">
+                  <span className="material-symbols-outlined text-lg">
                     {copied === course.id ? 'check_circle' : 'bolt'}
                   </span>
                   {copied === course.id ? 'NUSXALANDI!' : "LINK YUBORISH"}
                 </button>
 
-                <div className="flex gap-2">
-                  <Link href={`/courses/${course.id}`} className="flex-1 bg-white/5 hover:bg-white/10 text-white py-2.5 rounded-xl text-[9px] font-bold uppercase tracking-widest text-center transition-all border border-white/5">
+                <div className="flex gap-3">
+                  <Link href={`/courses/${course.id}`} className="flex-1 bg-white/5 hover:bg-white/10 text-white py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] text-center transition-all border border-white/5 active:scale-95">
                     TAHRIRLASH
                   </Link>
-                  <Link href={`/learn/${course.id}`} className="flex-1 bg-black hover:bg-[#111] text-[#444] hover:text-white py-2.5 rounded-xl text-[9px] font-bold uppercase tracking-widest text-center transition-all border border-white/5 flex items-center justify-center gap-1">
-                    <span className="material-symbols-outlined text-xs">visibility</span>
+                  <Link href={`/learn/${course.id}`} className="flex-1 bg-black hover:bg-white/5 text-white py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] text-center transition-all border border-white/10 flex items-center justify-center gap-2 active:scale-95">
+                    <span className="material-symbols-outlined text-lg">visibility</span>
                     KO'RISH
                   </Link>
                 </div>
