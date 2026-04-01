@@ -153,6 +153,18 @@ export default function CourseDetailPage() {
     );
   }
 
+  if (!course) {
+    return (
+      <div className="flex-1 flex items-center justify-center min-h-[80vh]">
+        <div className="text-center space-y-4">
+          <span className="material-symbols-outlined text-5xl text-[#333]">error_outline</span>
+          <h2 className="text-xl font-bold text-white font-headline">Course not found</h2>
+          <Link href="/library" className="text-[#cafd00] hover:underline text-sm">← Back to Library</Link>
+        </div>
+      </div>
+    );
+  }
+
   const { t, lang } = useLang();
   const [showCourseSettings, setShowCourseSettings] = useState(false);
   const [editTitle, setEditTitle] = useState("");
