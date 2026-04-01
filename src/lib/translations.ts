@@ -4,7 +4,7 @@ export const translations: Record<Lang, Record<string, string>> = {
   uz: {
     // Nav
     analytics: "Tahlil",
-    library: "Kutubxona",
+    library: "Mening kurslarim",
     members: "A'zolar",
     search: "Qidirish",
     courseBuilder: "Course Architect",
@@ -80,7 +80,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     nowPlaying: "Hozir ijroda",
     selectLesson: "Darsni tanlang",
     selectDesc: "Chapdan modulni oching va darsni bosing.",
-    backToLib: "← Kutubxonaga qaytish",
+    backToLib: "← Kurslarimga qaytish",
     editStructure: "Tuzilmani o'zgartirish",
     free: "Bepul",
 
@@ -104,7 +104,7 @@ export const translations: Record<Lang, Record<string, string>> = {
   },
   en: {
     analytics: "Analytics",
-    library: "Library",
+    library: "My Courses",
     members: "Members",
     search: "Search",
     courseBuilder: "Course Architect",
@@ -172,7 +172,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     nowPlaying: "Now Playing",
     selectLesson: "Select a Lesson",
     selectDesc: "Expand a module and click a lesson to start.",
-    backToLib: "← Back to Library",
+    backToLib: "← Back to My Courses",
     editStructure: "Edit Structure",
     free: "Free",
     aboutCourse: "About this course",
