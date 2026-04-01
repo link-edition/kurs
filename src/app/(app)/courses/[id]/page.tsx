@@ -42,7 +42,7 @@ export default function CourseDetailPage() {
       if (!data.error) {
         setCourse(data);
         setEditTitle(data.title);
-        setEditImage(data.thumbnail || "");
+        setEditImage(data.image_url || "");
         if (data?.modules?.length > 0 && expandedModules.size === 0) {
           setExpandedModules(new Set([data.modules[0].id]));
         }
@@ -162,7 +162,7 @@ export default function CourseDetailPage() {
       if (res.ok && !data.error) {
         setCourse(data);
         setEditTitle(data.title);
-        setEditImage(data.thumbnail || "");
+        setEditImage(data.image_url || "");
         setShowCourseSettings(false);
       } else {
         alert(data.error || "Saqlashda xatolik yuz berdi");

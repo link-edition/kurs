@@ -71,8 +71,8 @@ export function DashboardClient({ stats, courses }: { stats: any, courses: any[]
             {courses.map((course: any) => (
               <div key={course.id} className="group relative bg-[#111111] border border-white/5 rounded-[32px] p-8 space-y-6 hover:border-[#cafd00]/30 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
                 <div className="aspect-square bg-black rounded-2xl overflow-hidden border border-white/5 relative">
-                  {course.thumbnail ? (
-                    <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75 group-hover:brightness-100" />
+                  {course.image_url ? (
+                    <img src={course.image_url} alt={course.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75 group-hover:brightness-100" />
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center opacity-20">
                       <span className="material-symbols-outlined text-5xl">menu_book</span>

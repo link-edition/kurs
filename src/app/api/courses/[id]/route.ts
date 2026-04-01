@@ -43,12 +43,12 @@ export async function PATCH(
   try {
     const body = await request.json();
     const title = body.title;
-    const thumbnail = body.thumbnail;
+    const imageUrl = body.thumbnail;
 
-    // Simple direct update - only title and thumbnail
+    // Simple direct update - only title and image_url
     const result = await sql`
       UPDATE courses 
-      SET title = ${title}, thumbnail = ${thumbnail}
+      SET title = ${title}, image_url = ${imageUrl}
       WHERE id = ${id}
       RETURNING *
     `;

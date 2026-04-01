@@ -46,8 +46,8 @@ export default function LibraryPage() {
         {courses.map((course: any) => (
           <div key={course.id} className="group relative bg-[#111] border border-white/5 rounded-3xl p-6 space-y-5 hover:border-[#cafd00]/20 transition-all duration-500">
             <div className="aspect-video bg-black rounded-2xl overflow-hidden border border-white/5 relative">
-              {course.thumbnail ? (
-                <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-75 group-hover:brightness-100" />
+              {course.image_url ? (
+                <img src={course.image_url} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-75 group-hover:brightness-100" />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center opacity-20">
                   <span className="material-symbols-outlined text-4xl">menu_book</span>
