@@ -48,21 +48,15 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="pt-6 border-t border-[#cafd00]/10 mt-auto">
-        <Link href="/create-course" className="w-full flex justify-center bg-[#cafd00] text-[#516700] font-bold text-sm py-3 px-4 rounded-full mb-6 hover:brightness-110 transition-all shadow-[0_0_20px_rgba(202,253,0,0.15)]">
-          {t("newProject")}
+      <div className="pt-6 border-t border-[#cafd00]/10 mt-auto space-y-1">
+        <Link href="#" className="flex items-center gap-3 px-4 py-3 text-[#919191] hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full">
+          <span className="material-symbols-outlined text-lg">settings</span>
+          <span className="text-sm">{t("settings")}</span>
         </Link>
-
-        <div className="space-y-1">
-          <Link href="#" className="flex items-center gap-3 px-4 py-3 text-[#919191] hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full">
-            <span className="material-symbols-outlined text-lg">settings</span>
-            <span className="text-sm">{t("settings")}</span>
-          </Link>
-          <Link href="#" className="flex items-center gap-3 px-4 py-3 text-[#919191] hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full">
-            <span className="material-symbols-outlined text-lg">help_outline</span>
-            <span className="text-sm">{t("help")}</span>
-          </Link>
-        </div>
+        <Link href="#" className="flex items-center gap-3 px-4 py-3 text-[#919191] hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full">
+          <span className="material-symbols-outlined text-lg">help_outline</span>
+          <span className="text-sm">{t("help")}</span>
+        </Link>
       </div>
 
       <div className="flex items-center gap-3 p-4 bg-[#121212] rounded-2xl border border-[#cafd00]/10 group hover:border-[#cafd00]/30 transition-colors cursor-pointer mt-4">

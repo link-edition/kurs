@@ -3,14 +3,14 @@ export type Lang = 'uz' | 'en';
 export const translations: Record<Lang, Record<string, string>> = {
   uz: {
     // Nav
-    analytics: "Tahlil",
+    analytics: "Bosh menyu",
     library: "Mening kurslarim",
     members: "A'zolar",
     search: "Qidirish",
     courseBuilder: "Course Architect",
 
     // Dashboard
-    dashboard: "Boshqaruv paneli",
+    dashboard: "Bosh ekran",
     welcomeBack: "Xush kelibsiz. Kurslaringizni shu yerdan boshqaring.",
     totalRevenue: "Umumiy daromad ($)",
     activeStudents: "Faol o'quvchilar",
@@ -103,12 +103,12 @@ export const translations: Record<Lang, Record<string, string>> = {
     langSwitch: "Tilni o'zgartirish",
   },
   en: {
-    analytics: "Analytics",
+    analytics: "Main Menu",
     library: "My Courses",
     members: "Members",
     search: "Search",
     courseBuilder: "Course Architect",
-    dashboard: "Dashboard",
+    dashboard: "Home Screen",
     welcomeBack: "Welcome back. Manage your courses from here.",
     totalRevenue: "Total Revenue ($)",
     activeStudents: "Active Students",
