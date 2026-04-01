@@ -3,6 +3,8 @@ import { neon } from '@neondatabase/serverless';
 
 const sql = neon(process.env.DATABASE_URL!);
 
+export const dynamic = 'force-dynamic';
+
 // Add a new lesson
 export async function POST(request: NextRequest) {
   try {
