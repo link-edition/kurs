@@ -151,14 +151,25 @@ export default function CourseDetailPage() {
       const res = await fetch(`/api/courses/${courseId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: editTitle.trim(), thumbnail: editImage.trim() })
+        body: JSON.stringify({ 
+          title: editTitle.trim(), 
+          thumbnail: editImage.trim() 
+        })
       });
-      if (res.ok) {
-        await fetchCourse();
+      
+      const data = await res.json();
+      
+      if (res.ok && !data.error) {
+        setCourse(data);
+        setEditTitle(data.title);
+        setEditImage(data.thumbnail || "");
         setShowCourseSettings(false);
+      } else {
+        alert(data.error || "Saqlashda xatolik yuz berdi");
       }
     } catch (e) {
       console.error(e);
+      alert("Tarmoq xatosi yoki API xatosi");
     } finally {
       setUpdatingCourse(false);
     }
