@@ -49,7 +49,12 @@ export function Sidebar() {
       </nav>
 
       <div className="pt-6 border-t border-[#cafd00]/10 mt-auto space-y-1">
-        <Link href="#" className="flex items-center gap-3 px-4 py-3 text-[#919191] hover:text-white transition-all duration-200 hover:bg-white/5 rounded-full">
+        <Link href="/settings" className={cn(
+          "flex items-center gap-3 px-4 py-3 font-bold rounded-full transition-all duration-200 cursor-pointer",
+          pathname === "/settings"
+            ? "bg-[#cafd00] text-[#516700] scale-[0.98] active:opacity-80"
+            : "text-[#919191] hover:text-[#cafd00] hover:bg-white/5"
+        )}>
           <span className="material-symbols-outlined text-lg">settings</span>
           <span className="text-sm">{t("settings")}</span>
         </Link>
