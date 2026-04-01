@@ -104,7 +104,7 @@ export default function LibraryPage() {
             {/* Settings Icon - Absolute top right */}
             <button 
               onClick={() => openEditModal(course)}
-              className="absolute top-4 left-4 z-20 w-10 h-10 rounded-xl bg-black/40 backdrop-blur-md border border-white/5 flex items-center justify-center text-[#666] hover:text-[#cafd00] hover:border-[#cafd00]/30 transition-all opacity-0 group-hover:opacity-100"
+              className="absolute top-4 left-4 z-20 w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:text-[#cafd00] hover:bg-white/20 transition-all shadow-lg"
             >
               <span className="material-symbols-outlined text-xl">settings</span>
             </button>
@@ -179,72 +179,72 @@ export default function LibraryPage() {
 
       {/* Edit Course Modal */}
       {isEditModalOpen && editingCourse && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-12">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/80 backdrop-blur-xl animate-in fade-in duration-500" onClick={() => setIsEditModalOpen(false)}></div>
           
-          <div className="relative w-full max-w-2xl bg-[#111] border border-[#cafd00]/20 rounded-[40px] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] animate-in zoom-in-95 duration-500">
-            <div className="p-10 space-y-10">
+          <div className="relative w-full max-w-lg bg-[#111] border border-[#cafd00]/20 rounded-[32px] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] animate-in zoom-in-95 duration-500 max-h-[90vh] flex flex-col">
+            <div className="p-8 space-y-8 overflow-y-auto">
               <header className="flex justify-between items-start">
                 <div>
-                  <label className="text-[10px] items-center gap-2 uppercase tracking-[0.3em] font-black text-[#fedc00] mb-3 flex font-headline">
-                    <span className="material-symbols-outlined text-base">architecture</span> 
-                    Kurs arxitekturasi
+                  <label className="text-[10px] items-center gap-2 uppercase tracking-[0.3em] font-black text-[#fedc00] mb-2 flex font-headline">
+                    <span className="material-symbols-outlined text-sm">architecture</span> 
+                    Sozlamalar
                   </label>
-                  <h2 className="text-4xl font-black text-white tracking-tighter leading-none font-headline uppercase italic">Sozlamalar.</h2>
+                  <h2 className="text-3xl font-black text-white tracking-tighter leading-none font-headline uppercase italic">Tahrirlash.</h2>
                 </div>
-                <button onClick={() => setIsEditModalOpen(false)} className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-center text-[#666] hover:text-white">
-                  <span className="material-symbols-outlined">close</span>
+                <button onClick={() => setIsEditModalOpen(false)} className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-center text-[#666] hover:text-white">
+                  <span className="material-symbols-outlined text-xl">close</span>
                 </button>
               </header>
 
-              <div className="space-y-8">
+              <div className="space-y-6">
                 {/* Image Upload Area */}
                 <div 
                   onClick={() => fileInputRef.current?.click()}
-                  className="group relative aspect-video bg-black rounded-3xl overflow-hidden border border-white/5 cursor-pointer hover:border-[#cafd00]/30 transition-all duration-500"
+                  className="group relative aspect-[16/9] bg-black rounded-2xl overflow-hidden border border-white/5 cursor-pointer hover:border-[#cafd00]/30 transition-all duration-500"
                 >
                   {editingCourse.image_url ? (
                     <img src={editingCourse.image_url} alt="Thumbnail preview" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-50 group-hover:brightness-75" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-white/5">
-                      <span className="material-symbols-outlined text-4xl text-[#333]">add_photo_alternate</span>
+                      <span className="material-symbols-outlined text-3xl text-[#333]">add_photo_alternate</span>
                     </div>
                   )}
                   <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="w-12 h-12 rounded-full bg-[#cafd00] text-black flex items-center justify-center mb-2 shadow-[0_10px_20px_rgba(202,253,0,0.3)]">
-                      <span className="material-symbols-outlined font-black">upload</span>
+                    <div className="w-10 h-10 rounded-full bg-[#cafd00] text-black flex items-center justify-center mb-1 shadow-[0_10px_20px_rgba(202,253,0,0.3)]">
+                      <span className="material-symbols-outlined text-xl font-black">upload</span>
                     </div>
-                    <span className="text-[10px] font-black text-[#cafd00] uppercase tracking-widest">Rasmni o'zgartirish</span>
+                    <span className="text-[8px] font-black text-[#cafd00] uppercase tracking-widest">Rasm almashtirish</span>
                   </div>
                   <input type="file" ref={fileInputRef} onChange={handleImageUpload} className="hidden" accept="image/*" />
                 </div>
 
                 {/* Title Input */}
-                <div className="space-y-3">
-                  <label className="text-[10px] uppercase tracking-[0.2em] text-[#666] font-black font-headline">Kurs nomi</label>
+                <div className="space-y-2">
+                  <label className="text-[9px] uppercase tracking-[0.2em] text-[#666] font-black font-headline">Kurs nomi</label>
                   <input 
                     type="text" 
                     value={editingCourse.title}
                     onChange={(e) => setEditingCourse({ ...editingCourse, title: e.target.value })}
-                    className="w-full bg-transparent border-none px-0 py-2 text-2xl font-bold text-white placeholder-[#333] focus:ring-0 border-b border-[#333] focus:border-[#cafd00] transition-all font-headline focus:outline-none"
-                    placeholder="Kurs nomini kiriting..."
+                    className="w-full bg-transparent border-none px-0 py-1.5 text-xl font-bold text-white placeholder-[#333] focus:ring-0 border-b border-[#333] focus:border-[#cafd00] transition-all font-headline focus:outline-none"
+                    placeholder="Kiriting..."
                   />
                 </div>
 
                 {/* Status Toggle & Price */}
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-[0.2em] text-[#666] font-black font-headline">Kurs holati</label>
-                    <div className="flex bg-black/40 p-1.5 rounded-2xl border border-white/5">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-[9px] uppercase tracking-[0.2em] text-[#666] font-black font-headline">Status</label>
+                    <div className="flex bg-black/40 p-1 rounded-xl border border-white/5">
                       <button 
                         onClick={() => setEditingCourse({ ...editingCourse, is_free: true, price: 0 })}
-                        className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${editingCourse.is_free ? 'bg-[#cafd00] text-black shadow-[0_8px_20px_rgba(202,253,0,0.2)]' : 'text-[#666] hover:text-white'}`}
+                        className={`flex-1 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${editingCourse.is_free ? 'bg-[#cafd00] text-black shadow-lg' : 'text-[#666] hover:text-white'}`}
                       >
                         Bepul
                       </button>
                       <button 
                         onClick={() => setEditingCourse({ ...editingCourse, is_free: false })}
-                        className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${!editingCourse.is_free ? 'bg-[#fedc00] text-black shadow-[0_8px_20px_rgba(254,220,0,0.2)]' : 'text-[#666] hover:text-white'}`}
+                        className={`flex-1 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${!editingCourse.is_free ? 'bg-[#fedc00] text-black shadow-lg' : 'text-[#666] hover:text-white'}`}
                       >
                         Pullik
                       </button>
@@ -252,15 +252,15 @@ export default function LibraryPage() {
                   </div>
 
                   {!editingCourse.is_free && (
-                    <div className="space-y-3 animate-in fade-in slide-in-from-right-4 duration-500">
-                      <label className="text-[10px] uppercase tracking-[0.2em] text-[#fedc00] font-black font-headline">Narxi ($)</label>
+                    <div className="space-y-2 animate-in fade-in slide-in-from-right-4 duration-500">
+                      <label className="text-[9px] uppercase tracking-[0.2em] text-[#fedc00] font-black font-headline">Narxi ($)</label>
                       <div className="relative">
-                        <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xl font-bold text-[#fedc00] font-headline">$</span>
+                        <span className="absolute left-0 top-1/2 -translate-y-1/2 text-lg font-bold text-[#fedc00] font-headline">$</span>
                         <input 
                           type="number" 
                           value={editingCourse.price || ''}
                           onChange={(e) => setEditingCourse({ ...editingCourse, price: parseFloat(e.target.value) || 0 })}
-                          className="w-full bg-transparent border-none pl-6 pr-0 py-3 text-2xl font-bold text-white placeholder-[#333] focus:ring-0 border-b border-[#fedc00]/30 focus:border-[#fedc00] transition-all font-headline focus:outline-none"
+                          className="w-full bg-transparent border-none pl-5 pr-0 py-2 text-xl font-bold text-white placeholder-[#333] focus:ring-0 border-b border-[#fedc00]/30 focus:border-[#fedc00] transition-all font-headline focus:outline-none"
                           placeholder="0.00"
                         />
                       </div>
@@ -269,18 +269,18 @@ export default function LibraryPage() {
                 </div>
               </div>
 
-              <footer className="pt-6">
+              <footer className="pt-4">
                 <button 
                   onClick={handleUpdateCourse}
                   disabled={isUpdating}
-                  className="w-full bg-[#cafd00] text-[#516700] py-6 rounded-2xl font-black text-[12px] uppercase tracking-[0.3em] shadow-[0_20px_40px_-10px_rgba(202,253,0,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                  className="w-full bg-[#cafd00] text-[#516700] py-5 rounded-xl font-black text-[11px] uppercase tracking-[0.2em] shadow-[0_15px_30px_-5px_rgba(202,253,0,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isUpdating ? (
-                    <div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin"></div>
+                    <div className="w-4 h-4 border-2 border-black/20 border-t-black rounded-full animate-spin"></div>
                   ) : (
                     <>
-                      <span className="material-symbols-outlined text-xl">verified</span>
-                      O'zgarishlarni saqlash
+                      <span className="material-symbols-outlined text-lg">verified</span>
+                      Saqlash
                     </>
                   )}
                 </button>
