@@ -60,51 +60,57 @@ export function DashboardClient({ stats, courses }: { stats: any, courses: any[]
         <section className="space-y-8">
           <div className="flex items-center justify-between">
             <h4 className="text-2xl font-bold tracking-tight text-white font-headline">{t("recentCourses")}</h4>
-            <Link href="/create-course" className="bg-[#cafd00] text-[#516700] px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest hover:brightness-110 transition-all flex items-center gap-2">
-              <span className="material-symbols-outlined text-sm">add</span>
+            <Link href="/create-course" className="bg-[#cafd00] text-black px-8 py-3 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 shadow-[0_10px_30px_rgba(202,253,0,0.3)]">
+              <span className="material-symbols-outlined text-lg font-black">add</span>
               {t("newProject")}
             </Link>
           </div>
-          <div className="bg-[#262626]/40 backdrop-blur-[20px] border border-[#cafd00]/[0.05] rounded-2xl overflow-hidden">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-[#cafd00]/5">
-                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00]">{t("courseTitle")}</th>
-                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00]">{t("structure")}</th>
-                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00] text-right">{t("createdDate")}</th>
-                  <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fedc00] text-right">{t("price")}</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5">
-                {courses.length > 0 ? (
-                  courses.map((course: any) => (
-                    <tr key={course.id} className="hover:bg-[#cafd00]/5 transition-colors group cursor-pointer">
-                      <td className="px-8 py-6">
-                        <Link href={`/courses/${course.id}`} className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-full bg-[#333333] border border-[rgba(202,253,0,0.1)] flex items-center justify-center text-[10px] font-bold text-[#cafd00]">
-                            {course.title.substring(0,2).toUpperCase()}
-                          </div>
-                          <span className="text-sm font-medium text-white group-hover:text-[#cafd00] transition-colors">{course.title}</span>
-                        </Link>
-                      </td>
-                      <td className="px-8 py-6"><span className="text-sm text-[#919191] font-headline">{course.modules_count} {t("modules")}</span></td>
-                      <td className="px-8 py-6 text-right"><span className="text-sm text-[#919191]">{new Date(course.created_at).toLocaleDateString(lang === 'uz' ? 'uz-UZ' : 'en-US')}</span></td>
-                      <td className="px-8 py-6 text-right"><span className="text-sm font-bold text-[#cafd00]">${course.price}</span></td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={4} className="px-8 py-20 text-center">
-                      <div className="flex flex-col items-center gap-4 opacity-40">
-                        <span className="material-symbols-outlined text-5xl">folder_off</span>
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#919191]">{t("noCourses")}</p>
-                        <Link href="/create-course" className="text-[#cafd00] hover:underline text-xs">{t("createFirst")}</Link>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Existing Courses */}
+            {courses.map((course: any) => (
+              <div key={course.id} className="group relative bg-[#111111] border border-white/5 rounded-[32px] p-8 space-y-6 hover:border-[#cafd00]/30 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                <div className="aspect-square bg-black rounded-2xl overflow-hidden border border-white/5 relative">
+                  {course.thumbnail ? (
+                    <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75 group-hover:brightness-100" />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center opacity-20">
+                      <span className="material-symbols-outlined text-5xl">menu_book</span>
+                    </div>
+                  )}
+                  <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10">
+                    <span className="text-[9px] font-black text-[#cafd00] uppercase tracking-widest">{course.is_free ? t("free") : `$${course.price}`}</span>
+                  </div>
+                </div>
+
+                <div className="space-y-4 text-left">
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-bold text-[#444] uppercase tracking-widest">{course.modules_count} {t("modules")}</p>
+                    <h5 className="text-xl font-bold text-white tracking-tight group-hover:text-[#cafd00] transition-colors">{course.title}</h5>
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <Link href={`/courses/${course.id}`} className="flex-1 bg-white/5 hover:bg-white/10 text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-center transition-all border border-white/5">
+                      {t("edit")}
+                    </Link>
+                    <Link href={`/preview/${course.id}`} className="flex-1 bg-black hover:bg-[#111] text-[#666] hover:text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-center transition-all border border-white/5">
+                      {t("view")}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Bright Add New Button */}
+            <Link href="/create-course" className="group relative bg-[#cafd00]/5 border-2 border-dashed border-[#cafd00]/20 rounded-[32px] p-8 flex flex-col items-center justify-center gap-6 min-h-[400px] hover:border-[#cafd00] hover:bg-[#cafd00]/10 transition-all duration-500 active:scale-[0.98] cursor-pointer shadow-[0_0_50px_rgba(202,253,0,0.05)]">
+               <div className="w-20 h-20 rounded-full bg-[#cafd00] text-black flex items-center justify-center shadow-[0_20px_40px_rgba(202,253,0,0.3)] transition-transform duration-500 group-hover:scale-110">
+                 <span className="material-symbols-outlined text-4xl font-black">add</span>
+               </div>
+               <div className="text-center">
+                 <p className="text-xl font-black text-[#cafd00] uppercase tracking-tighter mix-blend-difference leading-none">{t("newProject")}</p>
+                 <p className="text-[10px] font-bold text-[#cafd00]/50 uppercase tracking-[0.2em] mt-2">Dars arxitekturasini boshlang</p>
+               </div>
+            </Link>
           </div>
         </section>
 

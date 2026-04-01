@@ -31,3 +31,33 @@ export async function GET(
     return NextResponse.json({ error: 'Database error' }, { status: 500 });
   }
 }
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const { title, thumbnail, price, is_free } = await request.json();
+
+  try {
+    const result = await sql`
+      UPDATE courses 
+      SET 
+        title = COALESCE(${title}, title),
+        thumbnail = COALESCE(${thumbnail}, thumbnail),
+        price = COALESCE(${price}, price),
+        is_free = COALESCE(${is_free}, is_free)
+      WHERE id = ${id}
+      RETURNING *
+    `;
+
+    if (result.length === 0) {
+      return NextResponse.json({ error: 'Course not found' }, { status: 404 });
+    }
+
+    return NextResponse.json(result[0]);
+  } catch (error) {
+    console.error('Failed to update course:', error);
+    return NextResponse.json({ error: 'Database error' }, { status: 500 });
+  }
+}
