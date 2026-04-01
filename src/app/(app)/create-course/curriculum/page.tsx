@@ -4,9 +4,11 @@ import { useCourseStore } from "@/store/course-store";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useLang } from "@/lib/lang-context";
 
 export default function Step2Curriculum() {
   const { modules, addModule, addLesson } = useCourseStore();
+  const { t } = useLang();
   const router = useRouter();
 
   const [newModuleName, setNewModuleName] = useState("");
@@ -47,20 +49,20 @@ export default function Step2Curriculum() {
       <div className="flex-1 px-16 pt-12 overflow-y-auto no-scrollbar pb-40">
         <header className="flex items-end justify-between mb-20">
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-[0.4em] text-[#cafd00] mb-4 block">Step 02 / 04</span>
-            <h1 className="text-7xl font-headline font-bold tracking-tighter mb-6 text-white italic">Curriculum</h1>
-            <p className="text-[#ababab] max-w-md text-lg leading-relaxed font-light">Design your course journey. <span className="text-[#fedc00]/80">Modules</span> act as chapters, while <span className="text-[#cafd00]/80">lessons</span> are core learning moments.</p>
+            <span className="text-[11px] font-bold uppercase tracking-[0.4em] text-[#cafd00] mb-4 block">{t("step")} 02 {t("of")} 04</span>
+            <h1 className="text-7xl font-headline font-bold tracking-tighter mb-6 text-white italic uppercase">{t("curriculum")}</h1>
+            <p className="text-[#888] max-w-md text-lg leading-relaxed font-light">{t("designJourney")}. <span className="text-[#fedc00]/80">{t("modules")}</span> {t("modulesDesc")}</p>
           </div>
           <button className="bg-[#cafd00] text-[#516700] px-8 py-4 rounded-full text-sm font-black uppercase tracking-widest flex items-center gap-3 hover:shadow-[0_0_30px_rgba(202,253,0,0.3)] hover:scale-105 transition-all duration-300">
-            <span className="material-symbols-outlined font-bold">add</span>
-            Add Module
+            <span className="material-symbols-outlined font-bold text-xl">add</span>
+            {t("addModule")}
           </button>
         </header>
 
         <div className="space-y-16 max-w-4xl mx-auto">
           <input 
-            placeholder="+ Add new module (Press Enter to save)" 
-            className="w-full bg-transparent border-0 border-b border-[#333] rounded-none px-0 text-white placeholder-[#444] text-lg focus:ring-0 focus:border-[#cafd00] transition-colors h-14 font-headline focus:outline-none"
+            placeholder={t("startBuilding")} 
+            className="w-full bg-transparent border-0 border-b border-[#222] rounded-none px-0 text-white placeholder-[#333] text-lg focus:ring-0 focus:border-[#cafd00] transition-colors h-14 font-headline focus:outline-none"
             value={newModuleName}
             onChange={(e) => setNewModuleName(e.target.value)}
             onKeyDown={handleAddModule}
@@ -74,33 +76,32 @@ export default function Step2Curriculum() {
                     <span className="text-sm font-black text-[#cafd00]/30 tracking-[0.4em]">0{mIdx + 1}</span>
                     <h3 className="text-2xl font-headline font-bold text-white tracking-tight">{module.title}</h3>
                   </div>
-                  <button onClick={() => startAddingLesson(module.id)} className="text-[10px] font-black uppercase tracking-[0.2em] text-[#919191] hover:text-[#cafd00] transition-colors flex items-center gap-2 group/btn">
+                  <button onClick={() => startAddingLesson(module.id)} className="text-[10px] font-black uppercase tracking-[0.2em] text-[#888] hover:text-[#cafd00] transition-colors flex items-center gap-2 group/btn">
                     <span className="material-symbols-outlined text-[18px] group-hover/btn:scale-110 transition-transform">add_circle</span>
-                    Add Lesson
+                    {t("addLesson")}
                   </button>
                 </div>
                 
                 <div className="space-y-4">
                   {module.lessons.map((lesson, lIdx) => (
-                    <div key={lesson.id} onClick={() => { setEditingLessonId("edit"); setEditForm({ title: lesson.title, videoUrl: lesson.videoUrl || "", description: lesson.content || "", isFree: lesson.isFree || false, moduleId: module.id }); }} className="bg-[#262626]/40 backdrop-blur-[20px] border border-[#cafd00]/[0.05] flex items-center justify-between p-6 rounded-2xl hover:border-[#cafd00]/20 hover:bg-white/5 transition-all duration-500 cursor-pointer group/lesson relative overflow-hidden">
+                    <div key={lesson.id} onClick={() => { setEditingLessonId("edit"); setEditForm({ title: lesson.title, videoUrl: lesson.videoUrl || "", description: lesson.content || "", isFree: lesson.isFree || false, moduleId: module.id }); }} className="bg-[#111] border border-white/5 flex items-center justify-between p-6 rounded-2xl hover:border-[#cafd00]/20 hover:bg-white/5 transition-all duration-500 cursor-pointer group/lesson relative overflow-hidden shadow-lg">
                       <div className="absolute left-0 top-0 h-full w-1 bg-[#cafd00] shadow-[2px_0_10px_#cafd00] opacity-0 group-hover/lesson:opacity-100 transition-opacity"></div>
                       <div className="flex items-center gap-6">
                         <span className="material-symbols-outlined text-[#333] group-hover/lesson:text-[#cafd00] transition-colors duration-500">drag_indicator</span>
                         <span className="text-base font-bold text-white tracking-tight">{mIdx + 1}.{lIdx + 1} {" "}{lesson.title}</span>
                       </div>
                       <div className="flex items-center gap-4 opacity-0 group-hover/lesson:opacity-100 transition-all duration-300 translate-x-4 group-hover/lesson:translate-x-0">
-                        {lesson.isFree && <span className="text-[9px] font-black uppercase tracking-widest text-[#516700] px-3 py-1 bg-[#cafd00] rounded-full shadow-[0_0_10px_rgba(202,253,0,0.2)]">FREE</span>}
-                        <span className="text-[9px] font-black uppercase tracking-widest text-[#516700] px-3 py-1 bg-[#cafd00] rounded-full shadow-[0_0_10px_rgba(202,253,0,0.2)]">VIDEO</span>
+                        {lesson.isFree && <span className="text-[9px] font-black uppercase tracking-widest text-[#516700] px-3 py-1 bg-[#cafd00] rounded-full shadow-[0_0_10px_rgba(202,253,0,0.2)]">{t("free")}</span>}
                         <button className="w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded-full transition-colors border border-white/5">
-                          <span className="material-symbols-outlined text-[#919191]">edit</span>
+                          <span className="material-symbols-outlined text-[#888]">edit</span>
                         </button>
                       </div>
                     </div>
                   ))}
                   {module.lessons.length === 0 && (
-                    <div onClick={() => startAddingLesson(module.id)} className="bg-transparent border border-dashed border-[#333] flex items-center p-6 rounded-2xl hover:border-[#cafd00]/50 hover:bg-white/5 transition-all duration-500 cursor-pointer group/add">
-                      <span className="material-symbols-outlined text-[#444] group-hover/add:text-[#cafd00] mr-4 transition-colors">add</span>
-                      <span className="text-sm font-bold text-[#666] group-hover/add:text-white transition-colors tracking-tight mt-0.5">Add first lesson</span>
+                    <div onClick={() => startAddingLesson(module.id)} className="bg-transparent border border-dashed border-[#222] flex items-center p-6 rounded-2xl hover:border-[#cafd00]/50 hover:bg-white/5 transition-all duration-500 cursor-pointer group/add">
+                      <span className="material-symbols-outlined text-[#333] group-hover/add:text-[#cafd00] mr-4 transition-colors">add</span>
+                      <span className="text-sm font-bold text-[#555] group-hover/add:text-white transition-colors tracking-tight mt-0.5">{t("addFirstLesson")}</span>
                     </div>
                   )}
                 </div>
@@ -109,14 +110,14 @@ export default function Step2Curriculum() {
           </div>
         </div>
 
-        <footer className="fixed bottom-0 right-0 left-64 h-24 bg-black/90 backdrop-blur-xl border-t border-[#cafd00]/5 px-12 flex items-center justify-between z-30">
-          <button onClick={() => router.push('/create-course')} className="flex items-center gap-3 text-[#919191] hover:text-white font-bold text-xs uppercase tracking-widest transition-all group">
+        <footer className="fixed bottom-0 right-0 left-64 h-24 bg-black/90 backdrop-blur-xl border-t border-[#111] px-12 flex items-center justify-between z-30">
+          <button onClick={() => router.push('/create-course')} className="flex items-center gap-3 text-[#555] hover:text-white font-bold text-xs uppercase tracking-widest transition-all group">
             <span className="material-symbols-outlined transition-transform group-hover:-translate-x-2 text-[#cafd00]">arrow_back</span>
-            Back to Basics
+            {t("backStep")}
           </button>
-          <button onClick={() => router.push('/create-course/pricing')} className="bg-[#cafd00] text-[#516700] px-10 py-4 rounded-full text-sm font-black uppercase tracking-[0.2em] flex items-center gap-3 hover:shadow-[0_0_40px_rgba(202,253,0,0.4)] hover:scale-[1.03] transition-all duration-300">
-            Pricing & Launch
-            <span className="material-symbols-outlined font-bold">arrow_forward</span>
+          <button onClick={() => router.push('/create-course/pricing')} className="bg-[#cafd00] text-[#516700] px-12 py-5 rounded-full text-sm font-black uppercase tracking-[0.2em] flex items-center gap-4 hover:shadow-[0_0_40px_rgba(202,253,0,0.4)] hover:scale-[1.03] transition-all duration-300">
+            {t("nextStep")}
+            <span className="material-symbols-outlined font-bold text-xl">arrow_forward</span>
           </button>
         </footer>
       </div>
@@ -126,68 +127,68 @@ export default function Step2Curriculum() {
         <div className="fixed inset-0 z-50 pointer-events-none flex justify-end">
           <div className="absolute inset-0 bg-black/80 backdrop-blur-md pointer-events-auto" onClick={() => setEditingLessonId(null)}></div>
           
-          <aside className="h-full w-[500px] bg-black border-l border-[#cafd00]/10 shadow-[0_0_100px_rgba(0,0,0,1)] flex flex-col pointer-events-auto z-10 relative animate-in slide-in-from-right">
-            <header className="p-10 pb-6 flex items-start justify-between">
+          <aside className="h-full w-[520px] bg-black border-l border-[#cafd00]/10 shadow-[0_0_100px_rgba(0,0,0,1)] flex flex-col pointer-events-auto z-10 relative animate-in slide-in-from-right duration-500">
+            <header className="p-12 pb-8 flex items-start justify-between">
               <div>
-                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#cafd00] mb-3">Lesson settings</p>
-                <h2 className="text-3xl font-headline font-bold text-white leading-tight">Edit Lesson:<br/>{editForm.title}</h2>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#cafd00] mb-3">{t("lessonSettings")}</p>
+                <h2 className="text-4xl font-headline font-bold text-white leading-tight">{t("editCourse")}:<br/><span className="text-[#888]">{editForm.title}</span></h2>
               </div>
-              <button onClick={() => setEditingLessonId(null)} className="w-12 h-12 flex items-center justify-center text-[#919191] hover:text-white transition-colors bg-white/5 rounded-full border border-[rgba(202,253,0,0.1)]">
+              <button onClick={() => setEditingLessonId(null)} className="w-12 h-12 flex items-center justify-center text-[#555] hover:text-white transition-colors bg-white/5 rounded-full border border-white/5">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </header>
             
-            <div className="flex-1 overflow-y-auto px-10 space-y-10 no-scrollbar pb-32">
-              <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#919191] ml-1">Title</label>
+            <div className="flex-1 overflow-y-auto px-12 space-y-12 no-scrollbar pb-32">
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#555] ml-1">{t("name")}</label>
                 <div className="relative">
-                  <input value={editForm.title} onChange={(e) => setEditForm({...editForm, title: e.target.value})} className="w-full bg-white/5 border border-[rgba(202,253,0,0.1)] focus:border-[#cafd00]/30 focus:outline-none rounded-2xl py-4 px-5 text-sm text-white placeholder-[#444] transition-all font-body" type="text"/>
+                  <input value={editForm.title} onChange={(e) => setEditForm({...editForm, title: e.target.value})} className="w-full bg-[#111] border border-white/5 focus:border-[#cafd00]/30 focus:outline-none rounded-3xl py-5 px-6 text-base text-white placeholder-[#333] transition-all font-body" type="text"/>
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#919191] ml-1">Video URL</label>
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#555] ml-1">YouTube URL</label>
                 <div className="relative">
-                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#cafd00]/40 text-xl">video_library</span>
-                  <input value={editForm.videoUrl} onChange={(e) => setEditForm({...editForm, videoUrl: e.target.value})} className="w-full bg-white/5 border border-[rgba(202,253,0,0.1)] focus:border-[#cafd00]/30 focus:outline-none rounded-2xl py-4 pl-12 text-sm text-white placeholder-[#444] transition-all font-body" placeholder="e.g. https://youtube.com/..." type="text"/>
+                  <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-[#cafd00]/40 text-2xl">video_library</span>
+                  <input value={editForm.videoUrl} onChange={(e) => setEditForm({...editForm, videoUrl: e.target.value})} className="w-full bg-[#111] border border-white/5 focus:border-[#cafd00]/30 focus:outline-none rounded-3xl py-5 pl-14 text-base text-white placeholder-[#333] transition-all font-body" placeholder="https://youtube.com/..." type="text"/>
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#919191] ml-1">Description</label>
-                <div className="bg-white/5 rounded-2xl overflow-hidden border border-[rgba(202,253,0,0.1)] focus-within:border-[#cafd00]/20 transition-all">
-                  <div className="px-5 py-3 border-b border-[rgba(202,253,0,0.1)] flex gap-5 text-[#666] bg-white/5">
-                    <span className="material-symbols-outlined text-sm cursor-pointer hover:text-[#cafd00] transition-colors">format_bold</span>
-                    <span className="material-symbols-outlined text-sm cursor-pointer hover:text-[#cafd00] transition-colors">format_italic</span>
-                    <span className="material-symbols-outlined text-sm cursor-pointer hover:text-[#cafd00] transition-colors">link</span>
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#555] ml-1">{t("shortDescLabel")}</label>
+                <div className="bg-[#111] rounded-[32px] overflow-hidden border border-white/5 focus-within:border-[#cafd00]/20 transition-all">
+                  <div className="px-6 py-4 border-b border-white/5 flex gap-6 text-[#555] bg-white/5">
+                    <span className="material-symbols-outlined text-lg cursor-pointer hover:text-[#cafd00] transition-colors">format_bold</span>
+                    <span className="material-symbols-outlined text-lg cursor-pointer hover:text-[#cafd00] transition-colors">format_italic</span>
+                    <span className="material-symbols-outlined text-lg cursor-pointer hover:text-[#cafd00] transition-colors">link</span>
                   </div>
-                  <textarea value={editForm.description} onChange={(e) => setEditForm({...editForm, description: e.target.value})} className="w-full bg-transparent border-none focus:outline-none text-sm text-[#e5e1e4] p-5 resize-none placeholder-[#444] font-body" placeholder="Write a brief overview..." rows={5}></textarea>
+                  <textarea value={editForm.description} onChange={(e) => setEditForm({...editForm, description: e.target.value})} className="w-full bg-transparent border-none focus:outline-none text-base text-[#888] p-6 resize-none placeholder-[#333] font-body" placeholder={t("placeholderDesc")} rows={5}></textarea>
                 </div>
               </div>
 
-              <div onClick={() => setEditForm({...editForm, isFree: !editForm.isFree})} className="p-6 bg-white/5 rounded-2xl border border-[rgba(202,253,0,0.1)] flex items-center justify-between group hover:bg-white/10 transition-colors cursor-pointer">
+              <div onClick={() => setEditForm({...editForm, isFree: !editForm.isFree})} className="p-8 bg-[#111] rounded-[32px] border border-white/5 flex items-center justify-between group hover:bg-white/5 transition-colors cursor-pointer">
                 <div>
-                  <p className="text-sm font-bold text-white tracking-tight">Free Preview</p>
-                  <p className="text-[11px] text-[#666] mt-1">Public access without purchase.</p>
+                  <p className="text-lg font-black text-white tracking-tight leading-none mb-2">{t("freePreview")}</p>
+                  <p className="text-xs text-[#555] opacity-80">{t("publicAccess")}</p>
                 </div>
-                <button className={`w-12 h-6 rounded-full relative flex items-center px-1 transition-all shadow-[0_0_15px_rgba(202,253,0,0.3)] ${editForm.isFree ? 'bg-[#cafd00]' : 'bg-[#333]'}`}>
-                  <div className={`absolute w-4 h-4 rounded-full transition-all ${editForm.isFree ? 'bg-[#516700] right-1' : 'bg-[#666] left-1'}`}></div>
-                </button>
+                <div className={`w-14 h-8 rounded-full relative flex items-center px-1 transition-all shadow-[0_0_20px_rgba(202,253,0,0.2)] ${editForm.isFree ? 'bg-[#cafd00]' : 'bg-[#222]'}`}>
+                  <div className={`absolute w-6 h-6 rounded-full transition-all duration-300 transform ${editForm.isFree ? 'bg-[#516700] translate-x-6' : 'bg-[#444] translate-x-0'}`}></div>
+                </div>
               </div>
 
-              <div className="rounded-2xl overflow-hidden aspect-video relative group border-2 border-[#111]">
-                <img className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ11xQqoLghRJfV-Xdr3kt7oAAfdOewDW1X62YrX7PjXBwlvqYMOdsEOrEp4YnwXf854fGjmON5XBlcOYbInl9_WfudXwcTVV_B-iR6HD_PXJIewqsErULM8-vrQNkikoF-Bnj0-CCPxJL_edTL8-tXJawjPRs7UKM88GCjuHYrN8NgyVFTKI0OhTaS79y0LEffyIWZcjtSYGtp2ojwykK34hsE5omZZXIHcBnQB2eT-xP19SAfrFHNlhb_ajkWXwBWos9_vENhDo"/>
-                <div className="absolute inset-0 bg-black/60 flex items-center justify-center group-hover:bg-black/30 transition-all cursor-pointer">
-                  <div className="w-16 h-16 bg-[#cafd00] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(202,253,0,0.5)] group-hover:scale-110 transition-transform">
-                    <span className="material-symbols-outlined text-[#516700] text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+              <div className="rounded-[32px] overflow-hidden aspect-video relative group border-2 border-[#111] shadow-2xl">
+                <img className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop"/>
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center group-hover:bg-black/20 transition-all cursor-pointer">
+                  <div className="w-20 h-20 bg-[#cafd00] rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(202,253,0,0.6)] group-hover:scale-110 transition-transform duration-500">
+                    <span className="material-symbols-outlined text-[#516700] text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <footer className="p-10 border-t border-[rgba(202,253,0,0.1)] bg-black/80 backdrop-blur-md">
-              <button onClick={handleSaveLesson} className="w-full bg-[#cafd00] text-[#516700] py-5 rounded-full text-xs font-black uppercase tracking-[0.3em] hover:shadow-[0_0_40px_rgba(202,253,0,0.4)] hover:brightness-110 transition-all duration-300">
-                Save Lesson Changes
+            <footer className="p-12 border-t border-white/5 bg-black/90 backdrop-blur-md">
+              <button onClick={handleSaveLesson} className="w-full bg-[#cafd00] text-[#516700] py-6 rounded-3xl text-xs font-black uppercase tracking-[0.4em] hover:shadow-[0_0_50px_rgba(202,253,0,0.5)] hover:brightness-110 active:scale-[0.98] transition-all duration-300">
+                {t("saveChanges")}
               </button>
             </footer>
           </aside>
