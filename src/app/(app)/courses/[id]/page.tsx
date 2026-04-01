@@ -153,19 +153,33 @@ export default function CourseDetailPage() {
     );
   }
 
-  if (!course) {
-    return (
-      <div className="flex-1 flex items-center justify-center min-h-[80vh]">
-        <div className="text-center space-y-4">
-          <span className="material-symbols-outlined text-5xl text-[#333]">error_outline</span>
-          <h2 className="text-xl font-bold text-white font-headline">Course not found</h2>
-          <Link href="/library" className="text-[#cafd00] hover:underline text-sm">← Back to Library</Link>
-        </div>
-      </div>
-    );
-  }
-
   const { t, lang } = useLang();
+  const [showCourseSettings, setShowCourseSettings] = useState(false);
+  const [editTitle, setEditTitle] = useState("");
+  const [editImage, setEditImage] = useState("");
+  const [updatingCourse, setUpdatingCourse] = useState(false);
+
+  useEffect(() => {
+    if (course) {
+      setEditTitle(course.title);
+      setEditImage(course.thumbnail || "");
+    }
+  }, [course]);
+
+  const handleUpdateCourse = async () => {
+    setUpdatingCourse(true);
+    try {
+      await fetch(`/api/courses/${courseId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: editTitle, thumbnail: editImage })
+      });
+      setShowCourseSettings(false);
+      fetchCourse();
+    } catch (e) { console.error(e); }
+    setUpdatingCourse(false);
+  };
+
   const totalLessons = course.modules?.reduce((sum: number, m: any) => sum + (m.lessons?.length || 0), 0) || 0;
 
   return (
@@ -177,7 +191,15 @@ export default function CourseDetailPage() {
             <span className="material-symbols-outlined text-[#919191] text-xl group-hover:text-white transition-colors">arrow_back</span>
           </button>
           <div className="h-6 w-px bg-white/10"></div>
-          <h1 className="text-lg font-bold text-white tracking-tight font-headline">{course.title}</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-lg font-bold text-white tracking-tight font-headline">{course.title}</h1>
+            <button 
+              onClick={() => setShowCourseSettings(true)}
+              className="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-[#444] hover:text-[#cafd00] transition-all"
+            >
+              <span className="material-symbols-outlined text-lg">settings</span>
+            </button>
+          </div>
           <span className={`text-[11px] font-black uppercase tracking-widest px-3 py-1 rounded-full border ${course.is_free ? 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20 shadow-[0_0_15px_rgba(52,211,153,0.1)]' : 'text-[#cafd00] bg-[#cafd00]/10 border-[#cafd00]/20 shadow-[0_0_15px_rgba(202,253,0,0.1)]'}`}>
             {course.is_free ? t("free") : `$${course.price}`}
           </span>
@@ -188,6 +210,51 @@ export default function CourseDetailPage() {
           <span className="text-[#666]">{totalLessons} <span className="text-[#444]">{t("lessons")}</span></span>
         </div>
       </header>
+
+      {/* Course Settings Modal */}
+      {showCourseSettings && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="w-full max-w-md bg-[#111] border border-white/10 rounded-[32px] p-8 space-y-6 shadow-2xl overflow-hidden relative">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#cafd00] to-[#fedc00]"></div>
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-white tracking-tight font-headline">{t("settings")}</h2>
+              <button onClick={() => setShowCourseSettings(false)} className="text-[#444] hover:text-white transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-[#444] ml-2">Kurs nomi</label>
+                <input
+                  type="text"
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  className="w-full bg-black border border-white/10 focus:border-[#cafd00]/40 text-white px-5 py-3.5 rounded-2xl focus:outline-none font-medium"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-[#444] ml-2">Muqova rasmi (URL)</label>
+                <input
+                  type="text"
+                  value={editImage}
+                  onChange={(e) => setEditImage(e.target.value)}
+                  placeholder="https://..."
+                  className="w-full bg-black border border-white/10 focus:border-[#cafd00]/40 text-white px-5 py-3.5 rounded-2xl focus:outline-none font-medium"
+                />
+              </div>
+            </div>
+
+            <button
+              onClick={handleUpdateCourse}
+              disabled={updatingCourse || !editTitle.trim()}
+              className="w-full bg-[#cafd00] text-black py-4 rounded-2xl text-sm font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-[0_10px_30px_rgba(202,253,0,0.2)] disabled:opacity-30"
+            >
+              {updatingCourse ? t("saving") : "Saqlash"}
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-1 overflow-hidden relative">
         {/* ===== LEFT SIDEBAR ===== */}
@@ -200,10 +267,13 @@ export default function CourseDetailPage() {
             </div>
             <button
               onClick={() => setShowAddModule(true)}
-              className="w-10 h-10 rounded-xl bg-[#cafd00] text-black hover:scale-110 active:scale-95 flex items-center justify-center transition-all shadow-[0_0_20px_rgba(202,253,0,0.2)]"
+              className="flex items-center gap-3 pr-5 pl-1 rounded-xl bg-[#cafd00] text-black hover:scale-[1.02] active:scale-95 transition-all shadow-[0_10px_20px_rgba(202,253,0,0.15)] group"
               title={t("addModule")}
             >
-              <span className="material-symbols-outlined text-xl font-bold">add</span>
+              <div className="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center">
+                <span className="material-symbols-outlined text-xl font-bold">add</span>
+              </div>
+              <span className="text-[11px] font-black uppercase tracking-widest">Modul qo&apos;shish</span>
             </button>
           </div>
 
