@@ -24,7 +24,7 @@ interface CourseState {
   isFree: boolean;
   price: number;
   promoCode: string;
-  publishedCourses: any[];
+  publishedCourses: unknown[];
   setBasicInfo: (info: { title: string; subtitle: string; categoryId: string; description: string }) => void;
   addModule: (module: Module) => void;
   addLesson: (moduleId: string, lesson: Lesson) => void;

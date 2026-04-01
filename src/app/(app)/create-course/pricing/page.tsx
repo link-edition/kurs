@@ -1,3 +1,5 @@
+"use client";
+
 import { useCourseStore } from "@/store/course-store";
 import { useRouter } from "next/navigation";
 import { useLang } from "@/lib/lang-context";
@@ -60,7 +62,7 @@ export default function Step3Pricing() {
                 <div className="bg-black/40 rounded-2xl p-1.5 flex items-center border border-white/5 transition-all focus-within:border-[#fedc00]/30 shadow-inner">
                   <input className="bg-transparent outline-none border-none focus:ring-0 text-white font-mono text-base w-full px-5 uppercase placeholder-[#333]" placeholder="EARLYBIRD" type="text"/>
                   <button className="bg-white/10 text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#fedc00] hover:text-black transition-all font-headline">
-                    {t("apply") || t("applyUz")}
+                    {t("apply") || "OK"}
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-4 opacity-40 hover:opacity-100 transition-opacity">
@@ -99,10 +101,6 @@ export default function Step3Pricing() {
             </button>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
       </div>
     </div>
   );
