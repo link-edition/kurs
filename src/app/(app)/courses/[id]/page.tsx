@@ -206,8 +206,9 @@ export default function CourseDetailPage() {
       {/* ===== TOP BAR ===== */}
       <header className="h-20 flex items-center justify-between px-10 bg-[#0a0a0a] border-b border-white/5 shrink-0 z-20">
         <div className="flex items-center gap-6">
-          <button onClick={() => router.push("/library")} className="w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/10 flex items-center justify-center transition-all group active:scale-90">
-            <span className="material-symbols-outlined text-[#919191] text-2xl group-hover:text-white transition-colors">arrow_back</span>
+          <button onClick={() => router.push("/library")} className="flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/5 hover:bg-white/10 transition-all group active:scale-95">
+            <span className="material-symbols-outlined text-[#919191] text-xl group-hover:text-white transition-colors">arrow_back</span>
+            <span className="text-sm font-bold text-[#666] group-hover:text-white transition-colors">{t("library")}</span>
           </button>
           <div className="h-8 w-px bg-white/10"></div>
           <div className="flex items-center gap-4">

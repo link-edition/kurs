@@ -36,9 +36,9 @@ export default function LibraryPage() {
   return (
     <div className="p-8 space-y-8 max-w-[1400px] w-full mx-auto relative z-10">
       <header className="space-y-2 text-left">
-        <h1 className="text-4xl font-black text-white font-headline tracking-tighter leading-tight">{t("libraryTitle") || "Mening kutubxonam"}</h1>
+        <h1 className="text-4xl font-black text-white font-headline tracking-tighter leading-tight">{t("myLibrary")}</h1>
         <p className="text-[#666] text-base max-w-2xl font-medium">
-          {t("librarySub") || "Chop etilgan kurslaringizni shu yerdan boshqaring. O'quvchilarga link yuboring."}
+          {t("libDesc")}
         </p>
       </header>
 
@@ -108,8 +108,8 @@ export default function LibraryPage() {
       {courses.length === 0 && !loading && (
         <div className="text-center py-20 bg-[#111]/50 rounded-[32px] border-2 border-dashed border-white/5">
              <span className="material-symbols-outlined text-6xl text-[#222] mb-4">folder_special</span>
-             <h3 className="text-xl font-bold text-white mb-2 font-headline">{t("libraryEmpty") || "Kutubxona bo'sh"}</h3>
-             <p className="text-[#666] text-sm font-medium">{t("startBuilding") || "Birinchi kursingizni yuklab ko'ring."}</p>
+             <h3 className="text-xl font-bold text-white mb-2 font-headline">{t("libEmpty")}</h3>
+             <p className="text-[#666] text-sm font-medium">{t("uploadFirst")}</p>
         </div>
       )}
     </div>

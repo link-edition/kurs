@@ -39,19 +39,16 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  
+
   try {
     const body = await request.json();
-    const { title, thumbnail, price, is_free } = body;
+    const title = body.title;
+    const thumbnail = body.thumbnail;
 
-    // Use a clean update strategy
+    // Simple direct update - only title and thumbnail
     const result = await sql`
       UPDATE courses 
-      SET 
-        title = ${title !== undefined ? title : sql`title`},
-        thumbnail = ${thumbnail !== undefined ? thumbnail : sql`thumbnail`},
-        price = ${price !== undefined ? price : sql`price`},
-        is_free = ${is_free !== undefined ? is_free : sql`is_free`}
+      SET title = ${title}, thumbnail = ${thumbnail}
       WHERE id = ${id}
       RETURNING *
     `;
