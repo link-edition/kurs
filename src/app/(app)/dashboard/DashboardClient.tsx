@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { useLang } from "@/lib/lang-context";
 import { TopNav } from "@/components/TopNav";
 
 export function DashboardClient({ stats, courses: initialCourses }: { stats: any, courses: any[] }) {
+  const router = useRouter();
   const { t, lang } = useLang();
   
   // Local state for courses to allow immediate updates
@@ -42,6 +44,7 @@ export function DashboardClient({ stats, courses: initialCourses }: { stats: any
         // Update local state
         setCourses(prev => prev.map(c => c.id === editingCourse.id ? { ...c, ...editingCourse } : c));
         setIsEditModalOpen(false);
+        router.refresh();
       } else {
         alert("Xatolik yuz berdi");
       }

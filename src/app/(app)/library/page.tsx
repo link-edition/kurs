@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { useLang } from "@/lib/lang-context";
 
 export default function LibraryPage() {
+  const router = useRouter();
   const { t, lang } = useLang();
   const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,6 +62,7 @@ export default function LibraryPage() {
       if (response.ok) {
         setIsEditModalOpen(false);
         fetchCourses();
+        router.refresh();
       } else {
         alert("Xatolik yuz berdi");
       }
