@@ -68,73 +68,77 @@ export default function Step1Basics() {
         </p>
       </header>
 
-      <form onSubmit={handleNext} className="space-y-10">
-        <div className="bg-[#111] border border-white/5 rounded-[32px] p-8 md:p-12 shadow-2xl space-y-10 relative overflow-hidden">
+      <form onSubmit={handleNext} className="space-y-12">
+        <div className="bg-[#111] border border-white/5 rounded-[32px] p-8 md:p-14 shadow-2xl relative overflow-visible">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#cafd00]/5 blur-[100px] rounded-full pointer-events-none"></div>
 
-          <div className="space-y-4 group relative z-10">
-            <label className="text-sm uppercase tracking-widest text-[#fedc00] font-black group-focus-within:text-[#cafd00] transition-colors font-headline" htmlFor="course-title">
-              {t("courseTitleLabel")}
-            </label>
-            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-2 transition-all focus-within:border-[#cafd00]/50 shadow-inner">
-              <input 
-                id="course-title" 
-                placeholder={t("placeholderTitle")}
-                className="w-full bg-transparent border-none px-4 py-3 text-xl text-white placeholder-[#444] focus:ring-0 transition-all font-body focus:outline-none"
-                value={title}
-                onChange={(e) => setBasicInfo({ title: e.target.value, subtitle, categoryId, description })}
-                required
-              />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-20 mb-12">
+            <div className="space-y-4 group">
+                <label className="text-sm uppercase tracking-widest text-[#fedc00] font-black group-focus-within:text-[#cafd00] transition-colors font-headline" htmlFor="course-title">
+                {t("courseTitleLabel")}
+                </label>
+                <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-2 transition-all focus-within:border-[#cafd00]/50 shadow-inner">
+                <input 
+                    id="course-title" 
+                    placeholder={t("placeholderTitle")}
+                    className="w-full bg-transparent border-none px-4 py-3 text-lg text-white placeholder-[#444] focus:ring-0 transition-all font-body focus:outline-none"
+                    value={title}
+                    onChange={(e) => setBasicInfo({ title: e.target.value, subtitle, categoryId, description })}
+                    required
+                />
+                </div>
+            </div>
+
+            <div className="space-y-4 group">
+                <label className="text-sm uppercase tracking-widest text-[#fedc00] font-black group-focus-within:text-[#cafd00] transition-colors font-headline" htmlFor="course-category">
+                {t("categoryLabel")}
+                </label>
+                
+                <div className="relative w-full" ref={dropdownRef}>
+                    <div 
+                        onClick={() => setIsOpen(!isOpen)}
+                        className={cn(
+                            "bg-[#0a0a0a] border border-white/10 rounded-2xl p-4 flex items-center justify-between cursor-pointer transition-all hover:bg-[#141414] shadow-inner h-[62px]",
+                            isOpen && "border-[#cafd00]/50 shadow-[0_0_20px_rgba(202,253,0,0.1)]"
+                        )}
+                    >
+                        <span className={cn("text-base font-medium truncate", selectedCat ? "text-white" : "text-[#444]")}>
+                            {selectedCat ? selectedCat.label : t("placeholderCategory")}
+                        </span>
+                        <span className={cn("material-symbols-outlined text-[#555] transition-transform duration-300", isOpen && "rotate-180 text-[#cafd00]")}>
+                            expand_more
+                        </span>
+                    </div>
+
+                    {isOpen && (
+                        <div className="absolute top-full left-0 right-0 mt-3 bg-[#0d0d0d] border border-white/10 rounded-2xl overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.5)] z-[100] animate-in fade-in zoom-in-95 duration-200">
+                            <div className="py-2">
+                                {categories.map((cat) => (
+                                    <div 
+                                        key={cat.id}
+                                        onClick={() => {
+                                            setBasicInfo({ title, subtitle, categoryId: cat.id, description });
+                                            setIsOpen(false);
+                                        }}
+                                        className={cn(
+                                            "px-6 py-4 flex items-center justify-between cursor-pointer transition-all hover:bg-[#cafd00]/10",
+                                            categoryId === cat.id ? "bg-[#cafd00]/5 text-[#cafd00]" : "text-[#888] hover:text-white"
+                                        )}
+                                    >
+                                        <span className="text-sm font-bold font-headline uppercase tracking-widest">{cat.label}</span>
+                                        {categoryId === cat.id && <span className="material-symbols-outlined text-sm">check_circle</span>}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
           </div>
 
-          <div className="space-y-4 group relative z-10">
-            <label className="text-sm uppercase tracking-widest text-[#fedc00] font-black group-focus-within:text-[#cafd00] transition-colors font-headline" htmlFor="course-category">
-              {t("categoryLabel")}
-            </label>
-            
-            <div className="relative w-full md:w-2/3" ref={dropdownRef}>
-                <div 
-                    onClick={() => setIsOpen(!isOpen)}
-                    className={cn(
-                        "bg-[#0a0a0a] border border-white/10 rounded-2xl p-4 flex items-center justify-between cursor-pointer transition-all hover:bg-[#141414] shadow-inner",
-                        isOpen && "border-[#cafd00]/50 shadow-[0_0_20px_rgba(202,253,0,0.1)]"
-                    )}
-                >
-                    <span className={cn("text-lg font-medium", selectedCat ? "text-white" : "text-[#444]")}>
-                        {selectedCat ? selectedCat.label : t("placeholderCategory")}
-                    </span>
-                    <span className={cn("material-symbols-outlined text-[#555] transition-transform duration-300", isOpen && "rotate-180 text-[#cafd00]")}>
-                        expand_more
-                    </span>
-                </div>
-
-                {isOpen && (
-                    <div className="absolute top-full left-0 right-0 mt-3 bg-[#0d0d0d] border border-white/10 rounded-2xl overflow-hidden shadow-3xl z-50 animate-in fade-in zoom-in-95 duration-200">
-                        <div className="py-2">
-                            {categories.map((cat) => (
-                                <div 
-                                    key={cat.id}
-                                    onClick={() => {
-                                        setBasicInfo({ title, subtitle, categoryId: cat.id, description });
-                                        setIsOpen(false);
-                                    }}
-                                    className={cn(
-                                        "px-6 py-4 flex items-center justify-between cursor-pointer transition-all hover:bg-[#cafd00]/10",
-                                        categoryId === cat.id ? "bg-[#cafd00]/5 text-[#cafd00]" : "text-[#888] hover:text-white"
-                                    )}
-                                >
-                                    <span className="text-base font-bold font-headline uppercase tracking-widest">{cat.label}</span>
-                                    {categoryId === cat.id && <span className="material-symbols-outlined text-sm">check_circle</span>}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {categoryId === "others" && (
-                <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-400 w-full md:w-2/3 relative z-10">
+          {categoryId === "others" && (
+                <div className="mb-12 animate-in fade-in slide-in-from-top-2 duration-400 w-full relative z-10">
+                    <label className="text-[10px] uppercase tracking-widest text-[#fedc00] font-black font-headline block ml-1 mb-2">Custom Category</label>
                     <div className="bg-[#0a0a0a] border border-[#fedc00]/30 rounded-2xl p-2 transition-all focus-within:border-[#fedc00] shadow-[0_0_20px_rgba(254,220,0,0.05)]">
                         <input 
                             placeholder="Kategoriya nomini kiriting..."
@@ -144,12 +148,8 @@ export default function Step1Basics() {
                             required
                         />
                     </div>
-                    <p className="text-[10px] text-[#fedc00]/60 mt-2 ml-2 tracking-widest uppercase font-black italic">Shaxsiy kategoriya kiritilmoqda</p>
                 </div>
             )}
-            
-            <p className="text-xs text-[#555] mt-2 italic">*Kategoriyani to'g'ri tanlash qidiruv tizimida topilishini osonlashtiradi.</p>
-          </div>
 
           <div className="space-y-4 group relative z-10">
             <label className="text-sm uppercase tracking-widest text-[#fedc00] font-black group-focus-within:text-[#cafd00] transition-colors font-headline" htmlFor="description">
@@ -160,17 +160,17 @@ export default function Step1Basics() {
                 id="description" 
                 placeholder={t("placeholderDesc")}
                 className="w-full bg-transparent border-none px-4 py-3 text-lg text-[#ccc] placeholder-[#444] focus:ring-0 transition-all resize-none font-body focus:outline-none" 
-                rows={3}
+                rows={4}
                 value={description}
                 onChange={(e) => setBasicInfo({ title, subtitle, categoryId, description: e.target.value })}
                 required
               ></textarea>
             </div>
           </div>
-
         </div>
 
-        <div className="bg-[#111] border border-white/5 rounded-[32px] p-8 md:p-12 shadow-2xl relative overflow-hidden group/cover">
+        <div className="bg-[#111] border border-white/5 rounded-[32px] p-8 md:p-14 shadow-2xl relative overflow-hidden group/cover">
+
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-transparent to-[#cafd00]/5 opacity-0 group-hover/cover:opacity-100 transition-opacity duration-700"></div>
           <div className="space-y-6 relative z-10">
             <div className="flex justify-between items-end mb-4">
