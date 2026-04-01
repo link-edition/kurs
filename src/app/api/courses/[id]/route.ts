@@ -39,16 +39,19 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const { title, thumbnail, price, is_free } = await request.json();
-
+  
   try {
+    const body = await request.json();
+    const { title, thumbnail, price, is_free } = body;
+
+    // Use a clean update strategy
     const result = await sql`
       UPDATE courses 
       SET 
-        title = COALESCE(${title}, title),
-        thumbnail = COALESCE(${thumbnail}, thumbnail),
-        price = COALESCE(${price}, price),
-        is_free = COALESCE(${is_free}, is_free)
+        title = ${title !== undefined ? title : sql`title`},
+        thumbnail = ${thumbnail !== undefined ? thumbnail : sql`thumbnail`},
+        price = ${price !== undefined ? price : sql`price`},
+        is_free = ${is_free !== undefined ? is_free : sql`is_free`}
       WHERE id = ${id}
       RETURNING *
     `;
