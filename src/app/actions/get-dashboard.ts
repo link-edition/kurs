@@ -7,7 +7,7 @@ const sql = neon(process.env.DATABASE_URL!);
 export async function getDashboardData() {
   try {
     const courses = await sql`
-      SELECT id, title, price, is_free, created_at, 
+      SELECT id, title, price, is_free, created_at, image_url,
       (SELECT COUNT(*) FROM modules WHERE course_id = courses.id) as modules_count
       FROM courses 
       ORDER BY created_at DESC;

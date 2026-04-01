@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLang } from "@/lib/lang-context";
 import { TopNav } from "@/components/TopNav";
@@ -12,6 +12,11 @@ export function DashboardClient({ stats, courses: initialCourses }: { stats: any
   
   // Local state for courses to allow immediate updates
   const [courses, setCourses] = useState(initialCourses);
+
+  // Sync local state when props change (from router.refresh())
+  useEffect(() => {
+    setCourses(initialCourses);
+  }, [initialCourses]);
   
   // Edit Modal State
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
