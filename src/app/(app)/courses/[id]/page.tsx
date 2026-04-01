@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useLang } from "@/lib/lang-context";
 
 export default function CourseDetailPage() {
   const params = useParams();
@@ -164,73 +165,74 @@ export default function CourseDetailPage() {
     );
   }
 
+  const { t, lang } = useLang();
   const totalLessons = course.modules?.reduce((sum: number, m: any) => sum + (m.lessons?.length || 0), 0) || 0;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-0px)] overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-0px)] overflow-hidden font-body antialiased">
       {/* ===== TOP BAR ===== */}
-      <header className="h-14 flex items-center justify-between px-6 bg-[#0a0a0a] border-b border-white/5 shrink-0">
-        <div className="flex items-center gap-3">
-          <button onClick={() => router.push("/library")} className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
-            <span className="material-symbols-outlined text-[#919191] text-lg">arrow_back</span>
+      <header className="h-16 flex items-center justify-between px-8 bg-[#0a0a0a] border-b border-white/5 shrink-0 z-20">
+        <div className="flex items-center gap-4">
+          <button onClick={() => router.push("/library")} className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center transition-all group active:scale-95">
+            <span className="material-symbols-outlined text-[#919191] text-xl group-hover:text-white transition-colors">arrow_back</span>
           </button>
-          <div className="h-5 w-px bg-white/10"></div>
-          <h1 className="text-sm font-bold text-white tracking-tight">{course.title}</h1>
-          <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border ${course.is_free ? 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20' : 'text-[#cafd00] bg-[#cafd00]/10 border-[#cafd00]/20'}`}>
-            {course.is_free ? "Free" : `$${course.price}`}
+          <div className="h-6 w-px bg-white/10"></div>
+          <h1 className="text-lg font-bold text-white tracking-tight font-headline">{course.title}</h1>
+          <span className={`text-[11px] font-black uppercase tracking-widest px-3 py-1 rounded-full border ${course.is_free ? 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20 shadow-[0_0_15px_rgba(52,211,153,0.1)]' : 'text-[#cafd00] bg-[#cafd00]/10 border-[#cafd00]/20 shadow-[0_0_15px_rgba(202,253,0,0.1)]'}`}>
+            {course.is_free ? t("free") : `$${course.price}`}
           </span>
         </div>
-        <div className="flex items-center gap-2 text-xs">
-          <span className="text-[#666]">{course.modules?.length || 0} modules</span>
-          <span className="text-[#333]">·</span>
-          <span className="text-[#666]">{totalLessons} lessons</span>
+        <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-widest">
+          <span className="text-[#666]">{course.modules?.length || 0} <span className="text-[#444]">{t("modules")}</span></span>
+          <span className="text-[#222]">/</span>
+          <span className="text-[#666]">{totalLessons} <span className="text-[#444]">{t("lessons")}</span></span>
         </div>
       </header>
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden relative">
         {/* ===== LEFT SIDEBAR ===== */}
-        <aside className="w-[340px] border-r border-white/5 bg-[#080808] flex flex-col shrink-0 overflow-hidden">
+        <aside className="w-[380px] border-r border-white/5 bg-[#080808] flex flex-col shrink-0 overflow-hidden relative z-10 shadow-2xl">
           {/* Sidebar Header */}
-          <div className="p-5 border-b border-white/5 flex items-center justify-between">
+          <div className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20 backdrop-blur-md">
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#cafd00]/50 mb-0.5">Curriculum</p>
-              <p className="text-[11px] text-[#555]">{course.modules?.length || 0} modules · {totalLessons} lessons</p>
+              <p className="text-[12px] font-black uppercase tracking-[0.4em] text-[#cafd00] mb-1">{t("curriculum")}</p>
+              <p className="text-[13px] text-[#555] font-medium">{course.modules?.length || 0} {t("modules")} · {totalLessons} {t("lessons")}</p>
             </div>
             <button
               onClick={() => setShowAddModule(true)}
-              className="w-8 h-8 rounded-lg bg-[#cafd00]/10 hover:bg-[#cafd00]/20 flex items-center justify-center transition-all group"
-              title="Add Module"
+              className="w-10 h-10 rounded-xl bg-[#cafd00] text-black hover:scale-110 active:scale-95 flex items-center justify-center transition-all shadow-[0_0_20px_rgba(202,253,0,0.2)]"
+              title={t("addModule")}
             >
-              <span className="material-symbols-outlined text-[#cafd00] text-lg group-hover:scale-110 transition-transform">add</span>
+              <span className="material-symbols-outlined text-xl font-bold">add</span>
             </button>
           </div>
 
           {/* Add Module Form */}
           {showAddModule && (
-            <div className="p-4 border-b border-white/5 bg-[#0d0d0d]">
-              <div className="space-y-3">
+            <div className="p-5 border-b border-white/10 bg-[#0d0d0d] animate-in fade-in slide-in-from-top-4 duration-300">
+              <div className="space-y-4">
                 <input
                   autoFocus
                   type="text"
                   value={newModuleTitle}
                   onChange={(e) => setNewModuleTitle(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleAddModule()}
-                  placeholder="Module nomi..."
-                  className="w-full bg-[#111] border border-white/10 focus:border-[#cafd00]/40 text-white text-sm px-4 py-2.5 rounded-xl focus:outline-none placeholder-[#444] transition-colors"
+                  placeholder={t("moduleName")}
+                  className="w-full bg-[#111] border-2 border-white/10 focus:border-[#cafd00]/40 text-white text-base px-5 py-3 rounded-xl focus:outline-none placeholder-[#333] transition-all font-medium"
                 />
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                   <button
                     onClick={handleAddModule}
                     disabled={addingModule || !newModuleTitle.trim()}
-                    className="flex-1 bg-[#cafd00] text-black py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider hover:brightness-110 transition-all disabled:opacity-30"
+                    className="flex-1 bg-[#cafd00] text-black py-3 rounded-xl text-xs font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all disabled:opacity-30 disabled:scale-100"
                   >
-                    {addingModule ? "Saving..." : "Add Module"}
+                    {addingModule ? t("saving") : t("addModule")}
                   </button>
                   <button
                     onClick={() => { setShowAddModule(false); setNewModuleTitle(""); }}
-                    className="px-4 py-2 text-[#666] hover:text-white transition-colors text-[11px] rounded-xl hover:bg-white/5"
+                    className="px-5 py-3 text-[#666] hover:text-white transition-colors text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-white/5 active:scale-95"
                   >
-                    Cancel
+                    {t("cancel")}
                   </button>
                 </div>
               </div>
@@ -238,127 +240,147 @@ export default function CourseDetailPage() {
           )}
 
           {/* Modules List */}
-          <div className="flex-1 overflow-y-auto py-2" style={{ scrollbarWidth: 'none' }}>
+          <div className="flex-1 overflow-y-auto py-4 custom-scrollbar px-3 space-y-4">
             {(!course.modules || course.modules.length === 0) && !showAddModule && (
-              <div className="px-5 py-16 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-4">
-                  <span className="material-symbols-outlined text-2xl text-[#333]">folder_open</span>
+              <div className="px-8 py-24 text-center">
+                <div className="w-16 h-16 rounded-3xl bg-white/5 flex items-center justify-center mx-auto mb-6 border border-white/10">
+                  <span className="material-symbols-outlined text-3xl text-[#333]">folder_open</span>
                 </div>
-                <p className="text-sm font-medium text-[#555] mb-1">No modules yet</p>
-                <p className="text-xs text-[#444] mb-5">Start building your curriculum</p>
-                <button onClick={() => setShowAddModule(true)} className="text-[#cafd00] text-xs font-bold hover:underline">
-                  + Add first module
+                <p className="text-base font-bold text-[#555] mb-2">{t("noModules")}</p>
+                <p className="text-[13px] text-[#444] mb-8 leading-relaxed font-medium">{t("startBuilding")}</p>
+                <button onClick={() => setShowAddModule(true)} className="bg-white/5 text-[#cafd00] border border-[#cafd00]/20 px-6 py-3 rounded-full text-[11px] font-black uppercase tracking-[0.2em] hover:bg-[#cafd00]/10 transition-all active:scale-95">
+                  {t("addFirst")}
                 </button>
               </div>
             )}
 
-            {course.modules?.map((mod: any, mIndex: number) => (
-              <div key={mod.id} className="border-b border-white/[0.03]">
+            {course.modules?.map((module: any, mIdx: number) => (
+              <div key={module.id} className="group/module">
                 {/* Module Header */}
-                <div className="flex items-center group">
-                  <button
-                    onClick={() => toggleModule(mod.id)}
-                    className="flex-1 flex items-center gap-3 px-5 py-3.5 hover:bg-white/[0.03] transition-colors text-left"
-                  >
-                    <span className={`material-symbols-outlined text-[#555] text-base transition-transform duration-200 ${expandedModules.has(mod.id) ? 'rotate-90' : ''}`}>
-                      chevron_right
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-[#555] mb-0.5">Module {mIndex + 1}</p>
-                      <p className="text-sm font-medium text-white truncate">{mod.title}</p>
+                <div className={cn(
+                  "flex items-center justify-between p-4 rounded-2xl transition-all cursor-pointer group mb-1",
+                  expandedModules.has(module.id) ? "bg-white/5 shadow-lg border border-white/5" : "hover:bg-white/[0.03]"
+                )}>
+                  <div className="flex items-center gap-4 flex-1 overflow-hidden" onClick={() => toggleModule(module.id)}>
+                    <span className={cn(
+                      "material-symbols-outlined text-xl transition-transform duration-300",
+                      expandedModules.has(module.id) ? "rotate-180 text-white" : "text-[#444]"
+                    )}>keyboard_arrow_down</span>
+                    <div className="overflow-hidden">
+                      <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#444] mb-0.5 group-hover:text-[#666] transition-colors">{t("module")} {mIdx + 1}</p>
+                      <h3 className="text-base font-bold text-white truncate font-headline group-hover:text-[#cafd00] transition-colors">{module.title}</h3>
                     </div>
-                    <span className="text-[10px] text-[#444] tabular-nums">{mod.lessons?.length || 0}</span>
-                  </button>
-                  <button
-                    onClick={() => handleDeleteModule(mod.id)}
-                    className="opacity-0 group-hover:opacity-100 mr-3 w-7 h-7 rounded-lg hover:bg-red-500/10 flex items-center justify-center transition-all"
-                    title="Delete Module"
-                  >
-                    <span className="material-symbols-outlined text-red-400/60 text-sm">delete</span>
-                  </button>
+                  </div>
+                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[11px] font-black text-[#333] mr-2 pr-2 border-r border-white/10">{module.lessons?.length || 0}</span>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); handleDeleteModule(module.id); }}
+                      className="w-8 h-8 rounded-lg hover:bg-red-500/10 hover:text-red-500 text-[#444] flex items-center justify-center transition-all"
+                    >
+                      <span className="material-symbols-outlined text-lg">delete</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Lessons */}
-                {expandedModules.has(mod.id) && (
-                  <div className="pb-1">
-                    {mod.lessons?.map((lesson: any, lIndex: number) => {
-                      const isActive = activeLesson?.id === lesson.id;
-                      const thumb = getYouTubeThumbnail(lesson.video_url);
-                      return (
-                        <div key={lesson.id} className="group/lesson flex items-center">
-                          <button
-                            onClick={() => setActiveLesson(lesson)}
-                            className={`flex-1 flex items-center gap-3 px-5 pl-12 py-2.5 transition-all text-left ${isActive ? 'bg-[#cafd00]/[0.07]' : 'hover:bg-white/[0.02]'}`}
-                          >
-                            {thumb ? (
-                              <img src={thumb} alt="" className="w-12 h-7 rounded object-cover shrink-0 border border-white/5" />
-                            ) : (
-                              <div className="w-12 h-7 rounded bg-white/5 flex items-center justify-center shrink-0">
-                                <span className="material-symbols-outlined text-[#333] text-xs">play_arrow</span>
+                {expandedModules.has(module.id) && (
+                  <div className="mt-2 ml-4 space-y-2 border-l-2 border-white/5 pl-4 pb-4 animate-in fade-in slide-in-from-left-4 duration-300">
+                    {module.lessons?.map((lesson: any, lIdx: number) => (
+                      <div
+                        key={lesson.id}
+                        onClick={() => setActiveLesson(lesson)}
+                        className={cn(
+                          "group relative flex items-center gap-4 p-4 rounded-2xl cursor-pointer transition-all border border-transparent",
+                          activeLesson?.id === lesson.id 
+                            ? "bg-[#cafd00]/10 border-[#cafd00]/30 shadow-[0_4px_20px_rgba(202,253,0,0.1)]" 
+                            : "bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/10"
+                        )}
+                      >
+                        <div className="relative shrink-0">
+                          {lesson.video_url ? (
+                            <div className="w-20 h-14 rounded-xl overflow-hidden border border-white/10 group-hover:border-[#cafd00]/30 transition-colors">
+                              <img 
+                                src={getYouTubeThumbnail(lesson.video_url) || ''} 
+                                alt="" 
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                              />
+                              <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="material-symbols-outlined text-white text-lg font-bold">play_arrow</span>
                               </div>
-                            )}
-                            <div className="flex-1 min-w-0">
-                              <p className={`text-xs truncate transition-colors ${isActive ? 'text-[#cafd00] font-semibold' : 'text-[#999]'}`}>
-                                {lesson.title}
-                              </p>
                             </div>
-                            {lesson.video_url && (
-                              <span className={`material-symbols-outlined text-sm ${isActive ? 'text-[#cafd00]' : 'text-[#333]'}`}>play_circle</span>
-                            )}
-                          </button>
-                          <button
-                            onClick={() => handleDeleteLesson(lesson.id)}
-                            className="opacity-0 group-hover/lesson:opacity-100 mr-3 w-6 h-6 rounded hover:bg-red-500/10 flex items-center justify-center transition-all"
-                          >
-                            <span className="material-symbols-outlined text-red-400/50 text-xs">close</span>
-                          </button>
+                          ) : (
+                            <div className="w-20 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                              <span className="material-symbols-outlined text-[#333] group-hover:text-[#666]">videocam_off</span>
+                            </div>
+                          )}
                         </div>
-                      );
-                    })}
+                        <div className="flex-1 overflow-hidden">
+                          <p className={cn(
+                            "text-base font-bold truncate transition-colors",
+                            activeLesson?.id === lesson.id ? "text-white" : "text-[#999] group-hover:text-white"
+                          )}>{lesson.title}</p>
+                          <div className="flex items-center gap-3 mt-1 opacity-50">
+                            <span className="text-[10px] font-black uppercase tracking-widest">{t("free")}</span>
+                            {activeLesson?.id === lesson.id && (
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#cafd00] animate-pulse"></span>
+                            )}
+                          </div>
+                        </div>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); handleDeleteLesson(lesson.id); }}
+                          className="w-8 h-8 rounded-lg hover:bg-red-500/10 hover:text-red-500 text-[#444] opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all absolute right-4 top-1/2 -translate-y-1/2"
+                        >
+                          <span className="material-symbols-outlined text-lg">close</span>
+                        </button>
+                      </div>
+                    ))}
 
-                    {/* Add Lesson */}
-                    {addLessonModuleId === mod.id ? (
-                      <div className="mx-5 ml-12 mt-1 mb-2 p-3 bg-[#0d0d0d] rounded-xl border border-white/5 space-y-2">
-                        <input
-                          autoFocus
-                          type="text"
-                          value={newLessonTitle}
-                          onChange={(e) => setNewLessonTitle(e.target.value)}
-                          placeholder="Dars nomi"
-                          className="w-full bg-[#111] border border-white/10 focus:border-[#cafd00]/30 text-white text-xs px-3 py-2 rounded-lg focus:outline-none placeholder-[#444] transition-colors"
-                        />
-                        <div className="flex items-center gap-2 bg-[#111] border border-white/10 rounded-lg px-3 py-2">
-                          <span className="material-symbols-outlined text-red-500 text-sm">smart_display</span>
+                    {/* Add Lesson Form */}
+                    {addLessonModuleId === module.id ? (
+                      <div className="p-5 bg-white/5 rounded-2xl border-2 border-dashed border-[#cafd00]/20 animate-in fade-in zoom-in-95 duration-200">
+                        <div className="space-y-4">
+                          <input
+                            autoFocus
+                            type="text"
+                            value={newLessonTitle}
+                            onChange={(e) => setNewLessonTitle(e.target.value)}
+                            placeholder={t("lessonName")}
+                            className="w-full bg-black border border-white/10 focus:border-[#cafd00]/40 text-white text-base px-4 py-3 rounded-xl focus:outline-none font-medium"
+                          />
                           <input
                             type="text"
                             value={newLessonUrl}
                             onChange={(e) => setNewLessonUrl(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && handleAddLesson()}
-                            placeholder="YouTube URL (ixtiyoriy)"
-                            className="flex-1 bg-transparent text-xs text-white placeholder-[#444] focus:outline-none"
+                            placeholder={t("youtubeUrl")}
+                            className="w-full bg-black border border-white/10 focus:border-[#cafd00]/40 text-[#919191] text-sm px-4 py-3 rounded-xl focus:outline-none"
                           />
-                        </div>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={handleAddLesson}
-                            disabled={addingLesson || !newLessonTitle.trim()}
-                            className="flex-1 bg-[#cafd00] text-black py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:brightness-110 transition-all disabled:opacity-30"
-                          >
-                            {addingLesson ? "..." : "Add Lesson"}
-                          </button>
-                          <button onClick={() => { setAddLessonModuleId(null); setNewLessonTitle(""); setNewLessonUrl(""); }}
-                            className="px-3 py-1.5 text-[#666] hover:text-white text-[10px] rounded-lg hover:bg-white/5 transition-all">
-                            Cancel
-                          </button>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={handleAddLesson}
+                              disabled={addingLesson || !newLessonTitle.trim()}
+                              className="flex-1 bg-[#cafd00] text-black py-3 rounded-xl text-xs font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all disabled:opacity-30 disabled:scale-100"
+                            >
+                              {addingLesson ? t("saving") : t("add")}
+                            </button>
+                            <button
+                              onClick={() => { setAddLessonModuleId(null); setNewLessonTitle(""); setNewLessonUrl(""); }}
+                              className="px-5 py-3 text-[#666] hover:text-white transition-colors text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-white/5 active:scale-95"
+                            >
+                              {t("cancel")}
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ) : (
                       <button
-                        onClick={() => setAddLessonModuleId(mod.id)}
-                        className="flex items-center gap-2 px-5 pl-12 py-2 text-[#555] hover:text-[#cafd00] transition-colors text-[11px] w-full text-left"
+                        onClick={() => setAddLessonModuleId(module.id)}
+                        className="w-full flex items-center gap-4 p-4 rounded-2xl bg-white/[0.01] border-2 border-dashed border-white/5 text-[#444] hover:border-[#cafd00]/20 hover:text-[#cafd00] hover:bg-[#cafd00]/[0.02] transition-all group"
                       >
-                        <span className="material-symbols-outlined text-sm">add_circle_outline</span>
-                        Add Lesson
+                        <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-[#cafd00]/10 transition-colors">
+                          <span className="material-symbols-outlined text-xl font-bold">add</span>
+                        </div>
+                        <span className="text-sm font-black uppercase tracking-widest">{t("addLesson")}</span>
                       </button>
                     )}
                   </div>
@@ -368,57 +390,73 @@ export default function CourseDetailPage() {
           </div>
         </aside>
 
-        {/* ===== MAIN CONTENT ===== */}
-        <main className="flex-1 flex flex-col overflow-hidden bg-black">
+        {/* ===== RIGHT CONTENT AREA ===== */}
+        <main className="flex-1 bg-[#050505] relative overflow-hidden flex flex-col">
           {activeLesson ? (
-            <>
-              {/* Video Player */}
-              <div className="bg-black shrink-0" style={{ aspectRatio: '16/9', maxHeight: '60vh' }}>
-                {embedUrl && getYouTubeId(activeLesson.video_url) ? (
-                  <iframe
-                    key={activeLesson.id}
-                    src={embedUrl}
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center gap-5 bg-[#060606]">
-                    <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-4xl text-[#333]">videocam_off</span>
+            <div className="flex-1 flex flex-col p-8 overflow-y-auto custom-scrollbar">
+              <div className="max-w-5xl w-full mx-auto space-y-8 animate-in fade-in duration-500">
+                {/* Video Player */}
+                <div className="relative aspect-video bg-black rounded-3xl overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.5)] border border-white/5 group">
+                  {activeLesson.video_url ? (
+                    <iframe
+                      src={`${embedUrl}?autoplay=1`}
+                      className="w-full h-full pointer-events-auto"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-white/10 m-4 rounded-2xl">
+                      <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
+                        <span className="material-symbols-outlined text-4xl text-[#333]">play_disabled</span>
+                      </div>
+                      <p className="text-xl font-bold text-white mb-2">{t("noVideo")}</p>
+                      <p className="text-[#666] text-sm font-medium">{t("pasteUrl")}</p>
                     </div>
-                    <div className="text-center">
-                      <p className="text-white/80 font-medium text-sm mb-1">No video attached</p>
-                      <p className="text-[#555] text-xs">Paste a YouTube URL when adding the lesson</p>
-                    </div>
+                  )}
+                  {/* Glass Overlay on top of iframe (optional, for aesthetics when not hovering) */}
+                  <div className="absolute top-0 left-0 right-0 p-8 pt-24 bg-gradient-to-b from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#cafd00] mb-2">{t("nowPlaying")}</p>
+                    <h2 className="text-4xl font-bold text-white tracking-tighter drop-shadow-lg">{activeLesson.title}</h2>
                   </div>
-                )}
-              </div>
-
-              {/* Lesson Details */}
-              <div className="flex-1 overflow-y-auto p-8 space-y-6" style={{ scrollbarWidth: 'none' }}>
-                <div>
-                  <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#cafd00]/40 mb-2">Now Playing</p>
-                  <h2 className="text-2xl font-bold text-white tracking-tight">{activeLesson.title}</h2>
-                  {activeLesson.content && <p className="text-[#777] mt-3 leading-relaxed text-sm">{activeLesson.content}</p>}
                 </div>
 
-                {activeLesson.video_url && (
-                  <div className="flex items-center gap-2 bg-white/[0.03] rounded-xl px-4 py-2.5 border border-white/5 max-w-lg">
-                    <span className="material-symbols-outlined text-red-500 text-sm">smart_display</span>
-                    <span className="text-xs text-[#666] truncate">{activeLesson.video_url}</span>
+                {/* Lesson Info */}
+                <div className="flex items-center justify-between py-6 border-b border-white/5">
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#444]">{t("free")}</p>
+                    <h2 className="text-4xl font-bold text-white text-shadow-glow tracking-tighter">{activeLesson.title}</h2>
                   </div>
-                )}
+                  <div className="flex gap-4">
+                     <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 px-8 py-4 rounded-2xl text-sm font-bold text-white border border-white/10 transition-all active:scale-95 grayscale hover:grayscale-0">
+                       <span className="material-symbols-outlined">description</span>
+                       Notes
+                     </button>
+                     <button className="flex items-center gap-3 bg-[#cafd00] hover:brightness-110 px-8 py-4 rounded-2xl text-sm font-black text-black transition-all active:scale-95 shadow-[0_10px_30px_rgba(202,253,0,0.2)]">
+                       <span className="material-symbols-outlined font-black">check_circle</span>
+                       Next
+                     </button>
+                  </div>
+                </div>
               </div>
-            </>
+            </div>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center gap-6">
-              <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center">
-                <span className="material-symbols-outlined text-4xl text-[#222]">slideshow</span>
-              </div>
-              <div className="text-center max-w-sm">
-                <h2 className="text-xl font-bold text-white mb-2">Select a Lesson</h2>
-                <p className="text-[#555] text-sm leading-relaxed">Choose a lesson from the sidebar or add new modules and lessons to start building your course.</p>
+            <div className="flex-1 flex items-center justify-center p-20 select-none animate-in fade-in duration-700">
+              <div className="text-center space-y-10 group">
+                <div className="relative inline-block">
+                  <div className="absolute inset-0 bg-[#cafd00]/20 blur-[100px] rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+                  <div className="w-32 h-32 rounded-[40px] bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-2 group-hover:border-[#cafd00]/30 group-hover:bg-[#cafd00]/5 transition-all duration-700 rotate-12 group-hover:rotate-0">
+                    <span className="material-symbols-outlined text-5xl text-[#222] group-hover:text-[#cafd00] transition-all duration-700 font-bold scale-[1.5]" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <h2 className="text-8xl font-black text-white/50 tracking-tighter mix-blend-difference group-hover:text-white transition-all duration-700 font-headline leading-none">{t("selectLesson")}</h2>
+                  <p className="text-xl text-[#333] max-w-xl mx-auto font-medium leading-relaxed group-hover:text-[#666] transition-all duration-700">{t("selectDesc")}</p>
+                </div>
+                <div className="pt-12">
+                   <div className="inline-flex items-center gap-3 px-8 py-4 bg-white/[0.02] rounded-3xl border border-white/5 text-[10px] font-black uppercase tracking-[0.5em] text-[#222] group-hover:text-[#444] transition-all duration-700">
+                     Ready to architect your course?
+                   </div>
+                </div>
               </div>
             </div>
           )}
@@ -427,3 +465,5 @@ export default function CourseDetailPage() {
     </div>
   );
 }
+
+const cn = (...classes: string[]) => classes.filter(Boolean).join(' ');
