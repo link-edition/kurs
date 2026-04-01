@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLang } from "@/lib/lang-context";
 
 export default function LibraryPage() {
@@ -10,11 +10,22 @@ export default function LibraryPage() {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState<string | null>(null);
 
-  useEffect(() => {
+  // Edit Modal State
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingCourse, setEditingCourse] = useState<any>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const fetchCourses = () => {
+    setLoading(true);
     fetch('/api/catalog')
       .then(res => res.json())
       .then(data => { setCourses(data); setLoading(false); })
       .catch(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchCourses();
   }, []);
 
   const copyLink = (courseId: string) => {
@@ -25,7 +36,52 @@ export default function LibraryPage() {
     });
   };
 
-  if (loading) {
+  const openEditModal = (course: any) => {
+    setEditingCourse({ ...course });
+    setIsEditModalOpen(true);
+  };
+
+  const handleUpdateCourse = async () => {
+    if (!editingCourse) return;
+    setIsUpdating(true);
+
+    try {
+      const response = await fetch(`/api/courses/${editingCourse.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: editingCourse.title,
+          thumbnail: editingCourse.image_url,
+          price: editingCourse.price,
+          isFree: editingCourse.is_free
+        }),
+      });
+
+      if (response.ok) {
+        setIsEditModalOpen(false);
+        fetchCourses();
+      } else {
+        alert("Xatolik yuz berdi");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditingCourse({ ...editingCourse, image_url: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  if (loading && courses.length === 0) {
     return (
       <div className="flex-1 flex items-center justify-center min-h-[60vh]">
         <div className="w-10 h-10 border-2 border-[#cafd00]/20 border-t-[#cafd00] rounded-full animate-spin"></div>
@@ -45,6 +101,14 @@ export default function LibraryPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {courses.map((course: any) => (
           <div key={course.id} className="group relative bg-[#111] border border-white/5 rounded-3xl p-6 space-y-5 hover:border-[#cafd00]/20 transition-all duration-500">
+            {/* Settings Icon - Absolute top right */}
+            <button 
+              onClick={() => openEditModal(course)}
+              className="absolute top-4 left-4 z-20 w-10 h-10 rounded-xl bg-black/40 backdrop-blur-md border border-white/5 flex items-center justify-center text-[#666] hover:text-[#cafd00] hover:border-[#cafd00]/30 transition-all opacity-0 group-hover:opacity-100"
+            >
+              <span className="material-symbols-outlined text-xl">settings</span>
+            </button>
+
             <div className="aspect-video bg-black rounded-2xl overflow-hidden border border-white/5 relative">
               {course.image_url ? (
                 <img src={course.image_url} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-75 group-hover:brightness-100" />
@@ -110,6 +174,119 @@ export default function LibraryPage() {
              <span className="material-symbols-outlined text-6xl text-[#222] mb-4">folder_special</span>
              <h3 className="text-xl font-bold text-white mb-2 font-headline">{t("libEmpty")}</h3>
              <p className="text-[#666] text-sm font-medium">{t("uploadFirst")}</p>
+        </div>
+      )}
+
+      {/* Edit Course Modal */}
+      {isEditModalOpen && editingCourse && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-12">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-xl animate-in fade-in duration-500" onClick={() => setIsEditModalOpen(false)}></div>
+          
+          <div className="relative w-full max-w-2xl bg-[#111] border border-[#cafd00]/20 rounded-[40px] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] animate-in zoom-in-95 duration-500">
+            <div className="p-10 space-y-10">
+              <header className="flex justify-between items-start">
+                <div>
+                  <label className="text-[10px] items-center gap-2 uppercase tracking-[0.3em] font-black text-[#fedc00] mb-3 flex font-headline">
+                    <span className="material-symbols-outlined text-base">architecture</span> 
+                    Kurs arxitekturasi
+                  </label>
+                  <h2 className="text-4xl font-black text-white tracking-tighter leading-none font-headline uppercase italic">Sozlamalar.</h2>
+                </div>
+                <button onClick={() => setIsEditModalOpen(false)} className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-center text-[#666] hover:text-white">
+                  <span className="material-symbols-outlined">close</span>
+                </button>
+              </header>
+
+              <div className="space-y-8">
+                {/* Image Upload Area */}
+                <div 
+                  onClick={() => fileInputRef.current?.click()}
+                  className="group relative aspect-video bg-black rounded-3xl overflow-hidden border border-white/5 cursor-pointer hover:border-[#cafd00]/30 transition-all duration-500"
+                >
+                  {editingCourse.image_url ? (
+                    <img src={editingCourse.image_url} alt="Thumbnail preview" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-50 group-hover:brightness-75" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-white/5">
+                      <span className="material-symbols-outlined text-4xl text-[#333]">add_photo_alternate</span>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="w-12 h-12 rounded-full bg-[#cafd00] text-black flex items-center justify-center mb-2 shadow-[0_10px_20px_rgba(202,253,0,0.3)]">
+                      <span className="material-symbols-outlined font-black">upload</span>
+                    </div>
+                    <span className="text-[10px] font-black text-[#cafd00] uppercase tracking-widest">Rasmni o'zgartirish</span>
+                  </div>
+                  <input type="file" ref={fileInputRef} onChange={handleImageUpload} className="hidden" accept="image/*" />
+                </div>
+
+                {/* Title Input */}
+                <div className="space-y-3">
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-[#666] font-black font-headline">Kurs nomi</label>
+                  <input 
+                    type="text" 
+                    value={editingCourse.title}
+                    onChange={(e) => setEditingCourse({ ...editingCourse, title: e.target.value })}
+                    className="w-full bg-transparent border-none px-0 py-2 text-2xl font-bold text-white placeholder-[#333] focus:ring-0 border-b border-[#333] focus:border-[#cafd00] transition-all font-headline focus:outline-none"
+                    placeholder="Kurs nomini kiriting..."
+                  />
+                </div>
+
+                {/* Status Toggle & Price */}
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <label className="text-[10px] uppercase tracking-[0.2em] text-[#666] font-black font-headline">Kurs holati</label>
+                    <div className="flex bg-black/40 p-1.5 rounded-2xl border border-white/5">
+                      <button 
+                        onClick={() => setEditingCourse({ ...editingCourse, is_free: true, price: 0 })}
+                        className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${editingCourse.is_free ? 'bg-[#cafd00] text-black shadow-[0_8px_20px_rgba(202,253,0,0.2)]' : 'text-[#666] hover:text-white'}`}
+                      >
+                        Bepul
+                      </button>
+                      <button 
+                        onClick={() => setEditingCourse({ ...editingCourse, is_free: false })}
+                        className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${!editingCourse.is_free ? 'bg-[#fedc00] text-black shadow-[0_8px_20px_rgba(254,220,0,0.2)]' : 'text-[#666] hover:text-white'}`}
+                      >
+                        Pullik
+                      </button>
+                    </div>
+                  </div>
+
+                  {!editingCourse.is_free && (
+                    <div className="space-y-3 animate-in fade-in slide-in-from-right-4 duration-500">
+                      <label className="text-[10px] uppercase tracking-[0.2em] text-[#fedc00] font-black font-headline">Narxi ($)</label>
+                      <div className="relative">
+                        <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xl font-bold text-[#fedc00] font-headline">$</span>
+                        <input 
+                          type="number" 
+                          value={editingCourse.price || ''}
+                          onChange={(e) => setEditingCourse({ ...editingCourse, price: parseFloat(e.target.value) || 0 })}
+                          className="w-full bg-transparent border-none pl-6 pr-0 py-3 text-2xl font-bold text-white placeholder-[#333] focus:ring-0 border-b border-[#fedc00]/30 focus:border-[#fedc00] transition-all font-headline focus:outline-none"
+                          placeholder="0.00"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <footer className="pt-6">
+                <button 
+                  onClick={handleUpdateCourse}
+                  disabled={isUpdating}
+                  className="w-full bg-[#cafd00] text-[#516700] py-6 rounded-2xl font-black text-[12px] uppercase tracking-[0.3em] shadow-[0_20px_40px_-10px_rgba(202,253,0,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                >
+                  {isUpdating ? (
+                    <div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin"></div>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined text-xl">verified</span>
+                      O'zgarishlarni saqlash
+                    </>
+                  )}
+                </button>
+              </footer>
+            </div>
+          </div>
         </div>
       )}
     </div>
