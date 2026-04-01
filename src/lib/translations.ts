@@ -155,6 +155,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     catEngineering: "Texnik muhandislik",
     catBusiness: "Biznes strategiya",
     catDevelopment: "Shaxsiy rivojlanish",
+    others: "Boshqa...",
     langSwitch: "Tilni o'zgartirish",
   },
   en: {
@@ -302,5 +303,6 @@ export const translations: Record<Lang, Record<string, string>> = {
     catEngineering: "Technical Engineering",
     catBusiness: "Business Strategy",
     catDevelopment: "Personal Development",
+    others: "Others...",
   },
 };
