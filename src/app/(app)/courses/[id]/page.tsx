@@ -35,24 +35,28 @@ export default function CourseDetailPage() {
   const [editImage, setEditImage] = useState("");
   const [updatingCourse, setUpdatingCourse] = useState(false);
 
-  const fetchCourse = useCallback(() => {
-    fetch(`/api/courses/${courseId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.error) {
-          setCourse(data);
-          setEditTitle(data.title);
-          setEditImage(data.thumbnail || "");
-          if (data?.modules?.length > 0 && expandedModules.size === 0) {
-            setExpandedModules(new Set([data.modules[0].id]));
-          }
+  const fetchCourse = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/courses/${courseId}`);
+      const data = await res.json();
+      if (!data.error) {
+        setCourse(data);
+        setEditTitle(data.title);
+        setEditImage(data.thumbnail || "");
+        if (data?.modules?.length > 0 && expandedModules.size === 0) {
+          setExpandedModules(new Set([data.modules[0].id]));
         }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
   }, [courseId, expandedModules.size]);
 
-  useEffect(() => { fetchCourse(); }, [fetchCourse]);
+  useEffect(() => { 
+    fetchCourse(); 
+  }, [fetchCourse]);
 
   const getYouTubeId = (url: string) => {
     if (!url) return null;
@@ -141,17 +145,23 @@ export default function CourseDetailPage() {
   };
 
   const handleUpdateCourse = async () => {
+    if (!editTitle.trim()) return;
     setUpdatingCourse(true);
     try {
-      await fetch(`/api/courses/${courseId}`, {
+      const res = await fetch(`/api/courses/${courseId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: editTitle, thumbnail: editImage })
+        body: JSON.stringify({ title: editTitle.trim(), thumbnail: editImage.trim() })
       });
-      setShowCourseSettings(false);
-      fetchCourse();
-    } catch (e) { console.error(e); }
-    setUpdatingCourse(false);
+      if (res.ok) {
+        await fetchCourse();
+        setShowCourseSettings(false);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setUpdatingCourse(false);
+    }
   };
 
   if (loading) {
