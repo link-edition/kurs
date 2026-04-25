@@ -6,7 +6,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Sidebar />
-      <main className="flex-1 ml-64 flex flex-col min-h-screen relative bg-black">
+      <main className="flex-1 lg:ml-64 flex flex-col min-h-screen relative bg-background text-foreground transition-colors duration-300">
         {/* Subtle Background Glows */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
           <div className="bg-[radial-gradient(circle_at_center,rgba(202,253,0,0.05)_0%,transparent_70%)] absolute -top-1/4 -right-1/4 w-[800px] h-[800px]"></div>

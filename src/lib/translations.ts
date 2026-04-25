@@ -20,6 +20,8 @@ export const translations: Record<Lang, Record<string, string>> = {
     settings: "Sozlamalar",
     help: "Yordam",
     createCourse: "Kurs yaratish",
+    edit: "Tahrirlash",
+    view: "Ko'rish",
     admin: "Admin",
     manager: "Boshqaruvchi",
     courseTitle: "Kurs nomi",
@@ -58,7 +60,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     authSoon: "Autentifikatsiya tez orada",
     authDesc: "A'zolarni to'liq boshqarish autentifikatsiya (Clerk/NextAuth) integratsiya qilinganidan so'ng ishga tushadi.",
 
-    // Course Detail
+    // Course Detail & Editor
     courseContent: "Kurs tarkibi",
     curriculum: "O'quv rejasi",
     lessons: "darslar",
@@ -83,6 +85,8 @@ export const translations: Record<Lang, Record<string, string>> = {
     backToLib: "← Kurslarimga qaytish",
     editStructure: "Tuzilmani o'zgartirish",
     free: "Bepul",
+    confirmDeleteModule: "Bu modulni o'chirmoqchimisiz? Barcha darslar ham o'chib ketadi.",
+    confirmDeleteLesson: "Bu darsni o'chirmoqchimisiz?",
 
     // Student View
     aboutCourse: "Kurs haqida",
@@ -98,9 +102,18 @@ export const translations: Record<Lang, Record<string, string>> = {
     lastUpdated: "Oxirgi yangilanish",
     language: "Til",
     uzbek: "O'zbekcha",
+    english: "Inglizcha",
+    completed: "Tugallangan",
+    markComplete: "Tugallandi deb belgilash",
+    markIncomplete: "Bekor qilish",
+    progress: "O'zlashtirildi",
+    loginToTrack: "Progressni kuzatish uchun tizimga kiring",
 
-    // Create Course
+    // Create Course Steps
     basics: "Asosiy",
+    pricing: "Narxlar",
+    publish: "Chop etish",
+    saveDraft: "Saqlab qo'yish",
     step: "Qadam",
     of: "dan",
     foundation: "Asosiy ma'lumotlar",
@@ -128,7 +141,6 @@ export const translations: Record<Lang, Record<string, string>> = {
     discardDraft: "Bekor qilish",
     nextStep: "Keyingi qadam",
     backStep: "Orqaga",
-    saveDraft: "Saqlab qo'yish",
 
     // Step 2
     designJourney: "O'quv safari dizayni",
@@ -165,6 +177,8 @@ export const translations: Record<Lang, Record<string, string>> = {
     members: "Members",
     search: "Search",
     courseBuilder: "Course Architect",
+
+    // Dashboard
     dashboard: "Home Screen",
     welcomeBack: "Welcome back. Manage your courses from here.",
     totalRevenue: "Total Revenue ($)",
@@ -175,6 +189,8 @@ export const translations: Record<Lang, Record<string, string>> = {
     settings: "Settings",
     help: "Help",
     createCourse: "Create Course",
+    edit: "Edit",
+    view: "View",
     admin: "Admin",
     manager: "Manager",
     courseTitle: "Course Title",
@@ -185,6 +201,8 @@ export const translations: Record<Lang, Record<string, string>> = {
     createFirst: "Create your first course",
     revenuePerf: "Revenue Performance",
     revenueSub: "30-day sales distribution and engagement metrics",
+
+    // Library
     myLibrary: "My Courses",
     libDesc: "Manage and edit your created courses.",
     modules: "modules",
@@ -192,6 +210,8 @@ export const translations: Record<Lang, Record<string, string>> = {
     createNew: "Create New",
     libEmpty: "No courses found",
     uploadFirst: "Create your first course.",
+
+    // Members
     membersTitle: "Members",
     membersDesc: "Manage team members, instructors, and student access.",
     totalMembers: "Total Members",
@@ -208,6 +228,8 @@ export const translations: Record<Lang, Record<string, string>> = {
     active: "Active",
     authSoon: "Authentication Coming Soon",
     authDesc: "Team member management will be fully functional once authentication is integrated.",
+
+    // Course Detail & Editor
     courseContent: "Course Content",
     curriculum: "Curriculum",
     lessons: "lessons",
@@ -232,6 +254,10 @@ export const translations: Record<Lang, Record<string, string>> = {
     backToLib: "← Back to My Courses",
     editStructure: "Edit Structure",
     free: "Free",
+    confirmDeleteModule: "Do you want to delete this module? All lessons will be deleted too.",
+    confirmDeleteLesson: "Do you want to delete this lesson?",
+
+    // Student View
     aboutCourse: "About this course",
     whatLearn: "What you'll learn",
     courseIncludes: "Course includes",
@@ -245,10 +271,18 @@ export const translations: Record<Lang, Record<string, string>> = {
     lastUpdated: "Last Updated",
     language: "Language",
     uzbek: "Uzbek",
-    langSwitch: "Switch language",
+    english: "English",
+    completed: "Completed",
+    markComplete: "Mark as complete",
+    markIncomplete: "Undo",
+    progress: "Progress",
+    loginToTrack: "Sign in to track your progress",
 
-    // Create Course step 1
+    // Create Course Steps
     basics: "Basics",
+    pricing: "Pricing",
+    publish: "Publish",
+    saveDraft: "Save Draft",
     step: "Step",
     of: "of",
     foundation: "Core Details",
@@ -276,7 +310,6 @@ export const translations: Record<Lang, Record<string, string>> = {
     discardDraft: "Discard Draft",
     nextStep: "Next Step",
     backStep: "Back",
-    saveDraft: "Save Draft",
 
     // Step 2
     designJourney: "Design your course journey",
@@ -304,5 +337,6 @@ export const translations: Record<Lang, Record<string, string>> = {
     catBusiness: "Business Strategy",
     catDevelopment: "Personal Development",
     others: "Others...",
+    langSwitch: "Switch language",
   },
 };

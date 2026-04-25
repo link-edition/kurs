@@ -1,0 +1,95 @@
+{
+  "users": [
+    {
+      "id": "admin-123",
+      "name": "Admin",
+      "email": "admin@test.com",
+      "password_hash": "sh_3ez7_8_97",
+      "role": "admin",
+      "avatar_url": null,
+      "created_at": "2026-04-19T09:00:00.000Z"
+    },
+    {
+      "id": "user-asadbek",
+      "name": "Asadbek",
+      "email": "asadbekkomilov904@gmail.com",
+      "password_hash": "sh_hie5i9_11_65",
+      "role": "teacher",
+      "avatar_url": null,
+      "created_at": "2026-04-19T09:48:00.000Z"
+    }
+  ],
+  "courses": [
+    {
+      "id": "course-1",
+      "title": "Modern Architecture Essentials",
+      "category_id": "Dizayn",
+      "description": "Ushbu kursda siz zamonaviy arxitektura asoslarini o'rganasiz.",
+      "price": "0.00",
+      "is_free": true,
+      "published": true,
+      "owner_id": "admin-123",
+      "created_at": "2026-04-19T09:10:00.000Z",
+      "updated_at": "2026-04-19T18:04:19.387Z"
+    }
+  ],
+  "modules": [
+    {
+      "id": "2c55ddd8-1ff1-4ad4-aad3-71e9fc8a60c1",
+      "created_at": "2026-04-19T16:06:50.710Z",
+      "course_id": "course-1",
+      "title": "ff",
+      "order_index": 0
+    }
+  ],
+  "lessons": [
+    {
+      "id": "b4f9d3f8-34b0-4111-b892-bb759f2906c2",
+      "created_at": "2026-04-19T16:23:19.490Z",
+      "module_id": "2c55ddd8-1ff1-4ad4-aad3-71e9fc8a60c1",
+      "title": "t",
+      "video_url": "t",
+      "content": "",
+      "is_free": false,
+      "attachments": [],
+      "order_index": 0
+    },
+    {
+      "id": "696f20bc-e925-4e01-a4f4-8c35cb9c6508",
+      "created_at": "2026-04-19T16:57:30.844Z",
+      "module_id": "2c55ddd8-1ff1-4ad4-aad3-71e9fc8a60c1",
+      "title": "d",
+      "video_url": "https://youtu.be/BWwwxXh0xEM?si=v8d9njRSMYV5IebN",
+      "content": "",
+      "is_free": false,
+      "attachments": [],
+      "order_index": 1
+    },
+    {
+      "id": "6e534208-6f91-4bf2-a617-f184107be7f2",
+      "created_at": "2026-04-19T17:01:35.090Z",
+      "module_id": "2c55ddd8-1ff1-4ad4-aad3-71e9fc8a60c1",
+      "title": "rrrrr",
+      "video_url": null,
+      "content": "",
+      "is_free": false,
+      "attachments": [
+        {
+          "name": "photo_5408835655581767704_w.jpg",
+          "url": "/uploads/attachments/1776618085939-photo_5408835655581767704_w.jpg",
+          "type": "file"
+        }
+      ],
+      "order_index": 2
+    }
+  ],
+  "enrollments": [],
+  "lesson_progress": [],
+  "settings": {
+    "id": "global",
+    "academy_name": "Course Architect",
+    "currency": "USD",
+    "primary_color": "#cafd00",
+    "language": "uz"
+  }
+}

@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { neon } from '@neondatabase/serverless';
 
-const sql = neon(process.env.DATABASE_URL!);
+const dbUrl = process.env.DATABASE_URL;
+const sql: any = dbUrl ? neon(dbUrl) : async (...args: any[]) => ([]);
 
 export const dynamic = 'force-dynamic';
 
 async function initSettings() {
+  if (!dbUrl) return; // Skip if no DB
   await sql`
     CREATE TABLE IF NOT EXISTS settings (
       id TEXT PRIMARY KEY DEFAULT 'global',
@@ -27,6 +29,9 @@ async function initSettings() {
 
 export async function GET() {
   try {
+    if (!dbUrl) {
+        return NextResponse.json({ academy_name: 'Course Architect', language: 'uz', primary_color: '#cafd00' });
+    }
     await initSettings();
     const settings = await sql`SELECT * FROM settings WHERE id = 'global'`;
     return NextResponse.json(settings[0]);
@@ -38,6 +43,7 @@ export async function GET() {
 
 export async function PATCH(request: NextRequest) {
   try {
+    if (!dbUrl) return NextResponse.json({ error: 'No DB' }, { status: 500 });
     const body = await request.json();
     const { academy_name, academy_logo, currency, primary_color, language } = body;
 

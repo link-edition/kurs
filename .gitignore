@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# temporary/generated files
+*.log
+*.txt
+*.bat
+*.html
+!src/**/*.html
+!public/**/*.html
+SESSION_PROGRESS.md
+.agent/

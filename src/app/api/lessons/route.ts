@@ -1,70 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { neon } from '@neondatabase/serverless';
+import { localSql } from '@/lib/local-db';
 
-const sql = neon(process.env.DATABASE_URL!);
+const dbUrl = process.env.DATABASE_URL;
+const sql: any = dbUrl && dbUrl.includes('neon.tech') ? neon(dbUrl) : null;
 
-export const dynamic = 'force-dynamic';
-
-// Add a new lesson
 export async function POST(request: NextRequest) {
   try {
-    const { moduleId, title, videoUrl, content } = await request.json();
-    if (!moduleId || !title) {
-      return NextResponse.json({ error: 'moduleId and title required' }, { status: 400 });
+    const { moduleId, title, videoUrl, content, isFree, attachments } = await request.json();
+    if (!moduleId || !title) return NextResponse.json({ error: 'Missing data' }, { status: 400 });
+
+    if (!sql) {
+      const newLesson = localSql.insert('lessons', { 
+        module_id: moduleId, 
+        title, 
+        video_url: videoUrl,
+        content: content || "",
+        is_free: isFree || false,
+        attachments: attachments || [],
+        order_index: localSql.select('lessons', l => l.module_id === moduleId).length 
+      });
+      return NextResponse.json(newLesson);
     }
 
-    const orderResult = await sql`SELECT COALESCE(MAX(order_index), 0) + 1 as next_order FROM lessons WHERE module_id = ${moduleId}`;
-    const nextOrder = orderResult[0].next_order;
-
-    const result = await sql`
-      INSERT INTO lessons (module_id, title, video_url, content, order_index, is_free)
-      VALUES (${moduleId}, ${title}, ${videoUrl || null}, ${content || null}, ${nextOrder}, false)
+    const [newLesson] = await sql`
+      INSERT INTO lessons (module_id, title, video_url, content, is_free, attachments, order_index) 
+      VALUES (${moduleId}, ${title}, ${videoUrl}, ${content || ''}, ${isFree || false}, ${JSON.stringify(attachments || [])}, (SELECT COALESCE(MAX(order_index), -1) + 1 FROM lessons WHERE module_id = ${moduleId})) 
       RETURNING *
     `;
-
-    return NextResponse.json(result[0]);
+    return NextResponse.json(newLesson);
   } catch (error) {
-    console.error('Failed to add lesson:', error);
-    return NextResponse.json({ error: 'Failed to add lesson' }, { status: 500 });
+    console.error(error);
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 
-// Update a lesson
-export async function PUT(request: NextRequest) {
-  try {
-    const { lessonId, title, videoUrl, content } = await request.json();
-    if (!lessonId) {
-      return NextResponse.json({ error: 'lessonId required' }, { status: 400 });
-    }
-
-    const result = await sql`
-      UPDATE lessons 
-      SET title = COALESCE(${title}, title),
-          video_url = COALESCE(${videoUrl}, video_url),
-          content = COALESCE(${content}, content)
-      WHERE id = ${lessonId}
-      RETURNING *
-    `;
-
-    return NextResponse.json(result[0]);
-  } catch (error) {
-    console.error('Failed to update lesson:', error);
-    return NextResponse.json({ error: 'Failed to update lesson' }, { status: 500 });
-  }
-}
-
-// Delete a lesson
 export async function DELETE(request: NextRequest) {
   try {
     const { lessonId } = await request.json();
-    if (!lessonId) {
-      return NextResponse.json({ error: 'lessonId required' }, { status: 400 });
+    if (!sql) {
+      const db = require('@/lib/local-db').readDb();
+      db.lessons = db.lessons.filter((l: any) => l.id !== lessonId);
+      require('@/lib/local-db').writeDb(db);
+      return NextResponse.json({ success: true });
     }
-
     await sql`DELETE FROM lessons WHERE id = ${lessonId}`;
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Failed to delete lesson:', error);
-    return NextResponse.json({ error: 'Failed to delete lesson' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
